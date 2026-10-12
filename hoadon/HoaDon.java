@@ -3,7 +3,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import khachhang.KhachHang;
+import nhanvien.NhanVienBanHang;
 import thanhtoan.IThanhToan;
+import kho.Kho;
+import kho.HangTonKho;
+import tienich.TienIch;
 
 public class HoaDon {
     //Thuộc tính
