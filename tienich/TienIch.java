@@ -96,11 +96,12 @@ public class TienIch {
                 System.out.println("Mã không được để trống!");
                 continue;
             }
-            if(!(timKiemViTri(ds, soLuong, ma)==-1)){
+            if((timKiemViTri(ds, soLuong, ma)!=-1)){ //-1 là kh tìm thấy
                 System.out.println("Mã trùng!");
+                continue;
             }
-            else break;
+            return ma;
         }
-        return ma;
+        
     }
 }
