@@ -1,12 +1,9 @@
 package phieunhap;
 
 import java.time.LocalDate;
+import interfaces.IGetMa;
 
-enum TrangThaiPN{
-    CHO_DUYET,
-    DA_DUYET,
-    DA_HUY
-}
+
 public class PhieuNhap implements IGetMa{
     private String maPN;
     private LocalDate ngayNhap;
@@ -14,6 +11,13 @@ public class PhieuNhap implements IGetMa{
     private TrangThaiPN trangThai;
     private ChiTietPhieuNhap[] chiTiet;
     private int soLuongCT;
+    
+    
+    public enum TrangThaiPN{
+    CHO_DUYET,
+    DA_DUYET,
+    DA_HUY
+    }
     
 //constructor tạo nhanh
     public PhieuNhap(){
@@ -35,7 +39,9 @@ public class PhieuNhap implements IGetMa{
     }
 //getter
     @Override 
-    public String getMa() {return maPN;}
+    public String getMa(){
+        return maPN;
+    }
     public LocalDate getNgayNhap() {return ngayNhap;}
     public String getNhaCungCap() {return nhaCungCap;}
     public TrangThaiPN getTrangThai() {return trangThai;}
