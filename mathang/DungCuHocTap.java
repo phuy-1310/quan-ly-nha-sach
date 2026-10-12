@@ -1,30 +1,29 @@
-package model;
+package mathang;
 
-
-public class DoChoi extends MatHang{
-    private final double thue = 20;
-    private final double loinhuan = 30;
-
+public class DungCuHocTap extends MatHang {
+    private final double thue = 12;
+    private final double loinhuan = 18;
+    private String loaidungcu;
     private String nhaSX;
-    private int dotuoi;
 
 
-    public DoChoi(){
+    public DungCuHocTap(){
         super();
-        this.nhaSX ="";
-        this.dotuoi = 0;
+        this.loaidungcu ="";
+        this.nhaSX = "";
     }
 
-    public DoChoi(String ma, String ten, double giaNhap, int soLuong, String nhaSX, int dotuoi) {
+    public DungCuHocTap(String ma, String ten, double giaNhap, int soLuong, String nhaSX, String loaidungcu) {
         super(ma, ten, giaNhap, soLuong);
         this.nhaSX = nhaSX;
-        this.dotuoi = dotuoi;
+        this.loaidungcu = loaidungcu;
     }
 
     public String getnhaSX() { return nhaSX; }
     public void setnhaSX(String nhaSX) { this.nhaSX = nhaSX; }
 
-    public int getdotuoi() {return dotuoi;}
+    public String getLoaidungcu(){return loaidungcu;}
+    public void setLoaidungcu(String loaidungcu){ this.loaidungcu = loaidungcu;}
 
     @Override
     public double tinhGiaBan(){
@@ -39,13 +38,14 @@ public class DoChoi extends MatHang{
 
         setTen(TienIch.nhapChuoi("Nhập tên: "));
 
-        nhaSX = TienIch.nhapChuoi("Nhà sản xuất: ");
+        loaidungcu = TienIch.nhapChuoi("Loại dụng cụ: ");
 
-        dotuoi = TienIch.nhapSoNguyenDuong("Nhập độ tuổi: ");
+        nhaSX = TienIch.nhapChuoi("Nhà sản xuất: ");
 
         setGiaNhap(TienIch.nhapGiaTien("Giá nhập hàng: "));
 
         setSoLuong(TienIch.nhapSoNguyenDuong("Nhập số lượng: "));
+
     }
 
     @Override
@@ -55,12 +55,14 @@ public class DoChoi extends MatHang{
 
         System.out.println("Tên: " + getTen());
 
-        System.out.println("Nhà sản xuất: " + nhaSX);
+        System.out.println("Loại dụng cụ" +loaidungcu);
 
-        System.out.println("Độ tuổi: " + dotuoi);
+        System.out.println("Nhà sản xuất: " + nhaSX);
 
         System.out.println("Số lượng: " + getSoLuong());
 
         System.out.println("Giá bán: " + tinhGiaBan());
     }
+
+
 }

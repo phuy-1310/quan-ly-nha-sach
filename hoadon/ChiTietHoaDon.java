@@ -1,3 +1,4 @@
+package hoadon;
 
 public class ChiTietHoaDon {
     private int soLuong;

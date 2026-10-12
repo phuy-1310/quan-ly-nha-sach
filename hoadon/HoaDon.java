@@ -1,5 +1,9 @@
+package hoadon;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+
+import khachhang.KhachHang;
+import thanhtoan.IThanhToan;
 
 public class HoaDon {
     //Thuộc tính

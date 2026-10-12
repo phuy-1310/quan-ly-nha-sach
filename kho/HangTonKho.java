@@ -1,4 +1,4 @@
-package model;
+package kho;
 
 public class HangTonKho implements IGetMa{
     private MatHang matHang;

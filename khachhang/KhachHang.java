@@ -1,3 +1,4 @@
+package khachhang;
 import java.util.Scanner;
 
 public class KhachHang {

@@ -1,10 +1,16 @@
-package model;
+package kho;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import mathang.DoChoi;
+import mathang.DungCuHocTap;
+import phieunhap.ChiTietPhieuNhap;
+import phieunhap.PhieuNhap;
+import phieunhap.TrangThaiPN;
 
 
 

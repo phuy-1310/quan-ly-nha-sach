@@ -1,4 +1,4 @@
-package model;
+package mathang;
 
 public class Khac extends MatHang{
     private final double thue = 20;

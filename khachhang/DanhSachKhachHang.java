@@ -1,3 +1,4 @@
+package khachhang;
 import java.io.*;
 public class DanhSachKhachHang implements IQuanLy,IFileIO{
     private int soLuong;

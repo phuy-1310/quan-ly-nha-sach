@@ -1,31 +1,25 @@
-package model;
+package mathang;
 
-public class TieuThuyet extends MatHang{
-    private final double thue = 20;
-    private final double loinhuan = 20;
-    private String tacGia;
+public class SachGiaoKhoa extends MatHang{
+    private final double thue = 0;
+    private final double loinhuan = 0;
+    private String monhoc;
     private String nhaXuatBan;
-    private String theloai;
 
-    public TieuThuyet() {
+    public SachGiaoKhoa() {
         super();
-        this.tacGia = "";
+        this.monhoc = "";
         this.nhaXuatBan = "";
-        this.theloai = "";
     }
 
-    public TieuThuyet(String ma, String ten, double giaNhap, int soLuong, String tacGia, String nhaXuatBan, String theloai) {
+    public SachGiaoKhoa(String ma, String ten, double giaNhap, int soLuong, String monhoc, String nhaXuatBan) {
         super(ma, ten, giaNhap, soLuong);
-        this.tacGia = tacGia;
+        this.monhoc = monhoc;
         this.nhaXuatBan = nhaXuatBan;
-        this.theloai = theloai;
     }
 
-    public String getTheloai(){return theloai; }
-    public void setTheloai(String theloai){this.theloai = theloai;}
-
-    public String getTacGia() { return tacGia; }
-    public void setTacGia(String tacGia) { this.tacGia = tacGia; }
+    public String getMonhoc() { return monhoc; }
+    public void setMonhoc(String monhoc) { this.monhoc = monhoc; }
 
     public String getNhaXuatBan() { return nhaXuatBan; }
     public void setNhaXuatBan(String nhaXuatBan) { this.nhaXuatBan = nhaXuatBan; }
@@ -40,13 +34,11 @@ public class TieuThuyet extends MatHang{
 
         setTen(TienIch.nhapChuoi("Nhập tên: "));
 
-        theloai = TienIch.nhapChuoi("Nhập thể loại: ");
-
-        tacGia = TienIch.nhapChuoi("Nhập tác giả: ");
+        monhoc = TienIch.nhapChuoi("Nhập môn học: ");
 
         nhaXuatBan = TienIch.nhapChuoi("Nhà xuất bản: ");
 
-        setGiaNhap(TienIch.nhapGiaTien("Nhập giá nhập: "));
+        setGiaNhap(TienIch.nhapGiaTien("Giá nhập hàng: "));
 
         setSoLuong(TienIch.nhapSoNguyenDuong("Nhập số lượng: "));
 
@@ -63,7 +55,7 @@ public class TieuThuyet extends MatHang{
 
         System.out.println("Tên: " + getTen());
 
-        System.out.println("Tác giả: " + tacGia);
+        System.out.println("Tên môn học: " + monhoc);
 
         System.out.println("Nhà xuất bản: " + nhaXuatBan);
 

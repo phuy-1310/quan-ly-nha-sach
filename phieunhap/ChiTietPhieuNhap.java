@@ -1,4 +1,4 @@
-package model;
+package phieunhap;
 
 public class ChiTietPhieuNhap {
     private MatHang matHang;

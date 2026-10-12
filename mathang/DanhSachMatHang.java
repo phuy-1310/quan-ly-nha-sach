@@ -1,4 +1,4 @@
-package DOAN;
+package mathang;
 import java.util.Scanner;
 import java.io.FileReader;
 import java.io.IOException;

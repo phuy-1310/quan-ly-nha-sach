@@ -1,3 +1,4 @@
+package thanhtoan;
 class ThanhToanTienMat implements IThanhToan{
     private double tienKhachDua;
     //hàm khởi tạo

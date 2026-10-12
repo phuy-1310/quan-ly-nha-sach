@@ -1,3 +1,4 @@
+package thanhtoan;
 public class ThanhToanThe implements IThanhToan{
     private String maGiaoDich;
     private String nganHang;

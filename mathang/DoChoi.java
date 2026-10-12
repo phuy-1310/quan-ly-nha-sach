@@ -1,29 +1,30 @@
-package model;
+package mathang;
 
-public class DungCuHocTap extends MatHang {
-    private final double thue = 12;
-    private final double loinhuan = 18;
-    private String loaidungcu;
+
+public class DoChoi extends MatHang{
+    private final double thue = 20;
+    private final double loinhuan = 30;
+
     private String nhaSX;
+    private int dotuoi;
 
 
-    public DungCuHocTap(){
+    public DoChoi(){
         super();
-        this.loaidungcu ="";
-        this.nhaSX = "";
+        this.nhaSX ="";
+        this.dotuoi = 0;
     }
 
-    public DungCuHocTap(String ma, String ten, double giaNhap, int soLuong, String nhaSX, String loaidungcu) {
+    public DoChoi(String ma, String ten, double giaNhap, int soLuong, String nhaSX, int dotuoi) {
         super(ma, ten, giaNhap, soLuong);
         this.nhaSX = nhaSX;
-        this.loaidungcu = loaidungcu;
+        this.dotuoi = dotuoi;
     }
 
     public String getnhaSX() { return nhaSX; }
     public void setnhaSX(String nhaSX) { this.nhaSX = nhaSX; }
 
-    public String getLoaidungcu(){return loaidungcu;}
-    public void setLoaidungcu(String loaidungcu){ this.loaidungcu = loaidungcu;}
+    public int getdotuoi() {return dotuoi;}
 
     @Override
     public double tinhGiaBan(){
@@ -38,14 +39,13 @@ public class DungCuHocTap extends MatHang {
 
         setTen(TienIch.nhapChuoi("Nhập tên: "));
 
-        loaidungcu = TienIch.nhapChuoi("Loại dụng cụ: ");
-
         nhaSX = TienIch.nhapChuoi("Nhà sản xuất: ");
+
+        dotuoi = TienIch.nhapSoNguyenDuong("Nhập độ tuổi: ");
 
         setGiaNhap(TienIch.nhapGiaTien("Giá nhập hàng: "));
 
         setSoLuong(TienIch.nhapSoNguyenDuong("Nhập số lượng: "));
-
     }
 
     @Override
@@ -55,14 +55,12 @@ public class DungCuHocTap extends MatHang {
 
         System.out.println("Tên: " + getTen());
 
-        System.out.println("Loại dụng cụ" +loaidungcu);
-
         System.out.println("Nhà sản xuất: " + nhaSX);
+
+        System.out.println("Độ tuổi: " + dotuoi);
 
         System.out.println("Số lượng: " + getSoLuong());
 
         System.out.println("Giá bán: " + tinhGiaBan());
     }
-
-
 }

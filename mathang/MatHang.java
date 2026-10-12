@@ -1,4 +1,4 @@
-package model;
+package mathang;
 
 public abstract class MatHang {
     private String ma;

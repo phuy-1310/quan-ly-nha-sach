@@ -1,5 +1,9 @@
+package hoadon;
 import java.io.*;
 import java.time.LocalDate;
+
+import khachhang.DanhSachKhachHang;
+import khachhang.KhachHang;
 public class DanhSachHoaDon implements IQuanLy, IFileIO{
     //Thuộc tính
     private HoaDon[] ds;

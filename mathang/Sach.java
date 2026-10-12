@@ -1,25 +1,31 @@
-package model;
+package mathang;
 
-public class SachGiaoKhoa extends MatHang{
-    private final double thue = 0;
-    private final double loinhuan = 0;
-    private String monhoc;
+public class Sach extends MatHang {
+    private final double thue = 25;
+    private final double loinhuan = 20;
+    private String tacGia;
     private String nhaXuatBan;
+    private String theloai;
 
-    public SachGiaoKhoa() {
+    public Sach() {
         super();
-        this.monhoc = "";
-        this.nhaXuatBan = "";
+        this.tacGia="";
+        this.nhaXuatBan ="";
+        this.theloai ="";
     }
 
-    public SachGiaoKhoa(String ma, String ten, double giaNhap, int soLuong, String monhoc, String nhaXuatBan) {
+    public Sach(String ma, String ten, double giaNhap, int soLuong, String tacGia, String nhaXuatBan, String theloai) {
         super(ma, ten, giaNhap, soLuong);
-        this.monhoc = monhoc;
+        this.tacGia = tacGia;
         this.nhaXuatBan = nhaXuatBan;
+        this.theloai = theloai;
     }
 
-    public String getMonhoc() { return monhoc; }
-    public void setMonhoc(String monhoc) { this.monhoc = monhoc; }
+    public String getTheloai(){return theloai; }
+    public void setTheloai(String theloai){this.theloai = theloai;}
+
+    public String getTacGia() { return tacGia; }
+    public void setTacGia(String tacGia) { this.tacGia = tacGia; }
 
     public String getNhaXuatBan() { return nhaXuatBan; }
     public void setNhaXuatBan(String nhaXuatBan) { this.nhaXuatBan = nhaXuatBan; }
@@ -34,7 +40,9 @@ public class SachGiaoKhoa extends MatHang{
 
         setTen(TienIch.nhapChuoi("Nhập tên: "));
 
-        monhoc = TienIch.nhapChuoi("Nhập môn học: ");
+        theloai = TienIch.nhapChuoi("Nhập thể loại: ");
+
+        tacGia = TienIch.nhapChuoi("Nhập tác giả: ");
 
         nhaXuatBan = TienIch.nhapChuoi("Nhà xuất bản: ");
 
@@ -45,22 +53,21 @@ public class SachGiaoKhoa extends MatHang{
     }
 
     @Override
-    public double tinhGiaBan() {
-        return getGiaNhap() * (1 + loinhuan / 100) * (1 + thue / 100);
-    }
-
-    @Override
-    public void xuat() {
+    public void xuat(){
         System.out.println("Mã: " + getMa());
 
         System.out.println("Tên: " + getTen());
 
-        System.out.println("Tên môn học: " + monhoc);
+        System.out.println("Thể loại: " +getTheloai());
 
         System.out.println("Nhà xuất bản: " + nhaXuatBan);
 
         System.out.println("Số lượng: " + getSoLuong());
 
         System.out.println("Giá bán: " + tinhGiaBan());
+    }
+    @Override
+    public double tinhGiaBan(){
+        return getGiaNhap() * (1 + loinhuan/100)*(1+thue/100);
     }
 }
