@@ -1,5 +1,7 @@
 package hoadon;
 
+import mathang.MatHang;
+
 public class ChiTietHoaDon {
     private int soLuong;
     private double donGia;
