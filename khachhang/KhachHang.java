@@ -1,5 +1,6 @@
 package khachhang;
-import java.util.Scanner;
+
+import tienich.*;
 
 public class KhachHang {
     //Thuộc tính
@@ -43,12 +44,9 @@ public class KhachHang {
     //Nhập khách hàng
     public void nhap(){
 
-        System.out.println("Nhập mã khách hàng: ");
-        maKH = TienIch.nhapChuoi();
-        System.out.println("Nhập tên khách hàng: ");
-        tenKH = TienIch.nhapChuoi();
-        System.out.println("Nhập số điện thoại: ");
-        soDienThoai = TienIch.nhapChuoi();
+        maKH = TienIch.nhapChuoi("Nhập mã khách hàng: ");
+        tenKH = TienIch.nhapChuoi("Nhập tên khách hàng: ");
+        soDienThoai = TienIch.nhapChuoi("Nhập số điện thoại: ");
     }
     //Xuất khách hàng
     public void xuat(){

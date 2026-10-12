@@ -1,5 +1,9 @@
 package khachhang;
 import java.io.*;
+
+import interfaces.*;
+import tienich.*;
+
 public class DanhSachKhachHang implements IQuanLy,IFileIO{
     private int soLuong;
     private KhachHang[] ds;
