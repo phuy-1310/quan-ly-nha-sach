@@ -4,18 +4,30 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 
-    public class DanhSachMatHang implements IQuanLy {
+import tienich.*;
+import interfaces.IQuanLy;
+import kho.*;
+
+public class DanhSachMatHang implements IQuanLy {
     private MatHang[] ds;
     private int soluong;
+    private Kho kho;
 
     //constructor
     public DanhSachMatHang() {
+        
         ds = new MatHang[100]; // mảng ban đầu
         soluong = 0;
     }
 
         //Nhap hang(nhap tu kho)
-        @Override
+    @Override
+    public void nhap(){
+        System.out.println("Danh sách mặt hàng đang nhập hàng từ kho: ");
+        String maCanLay = TienIch.nhapChuoi("Nhập mã hàng cần lấy: ");
+        int soLuongLay = TienIch.nhapSoNguyenDuong("Nhập số lượng cần lấy: ");
+        nhapTuKho(kho, maCanLay, soLuongLay);
+    }
     public void nhapTuKho(Kho kho, String ma, int soLuongLay) {
             boolean found = false;
             for (int i = 0; i < kho.getSoLuongTon(); i++) {
@@ -147,6 +159,11 @@ import java.io.BufferedReader;
 
         //Xoa Hang
     @Override
+    public void xoa(){
+        String maCanXoa;
+        maCanXoa=TienIch.nhapChuoi("Nhập mã cần xóa: ");
+        xoa(maCanXoa);
+    }
     public void xoa(String ma){
         boolean found = false;
         for(int i =0; i < soluong;i++){
@@ -166,8 +183,12 @@ import java.io.BufferedReader;
 
     //Sua Hang
     @Override
+    public void sua(){
+        String ma;
+        ma = TienIch.nhapChuoi("Nhập mã cần sửa");
+        sua(ma);
+    }
     public void sua(String ma) {
-        Scanner sc = new Scanner(System.in);
         boolean found = false;
 
         for (int i = 0; i < soluong; i++) {
@@ -187,46 +208,20 @@ import java.io.BufferedReader;
                     switch (choice) {
                         case 1:
                             System.out.print("Nhập mã mới: ");
-                            String maMoi = sc.nextLine();
-                            boolean trung = false;
-                            for (int j = 0; j < soluong; j++) {
-                                if (j != i && ds[j].getMa().equalsIgnoreCase(maMoi)) {
-                                    trung = true;
-                                    break;
-                                }
-                            }
-                            if (trung) {
-                                System.out.println("Mã mới đã tồn tại, vui lòng nhập lại!");
-                            } else {
-                                ds[i].setMa(maMoi);
-                            }
+                            String maMoi = TienIch.nhapMa(ds, soluong, ma); //hàm này có ktra kh trùng
+                            ds[i].setMa(maMoi);
                             break;
                         case 2:
-                            System.out.print("Nhập tên mới: ");
-                            ds[i].setTen(sc.nextLine());
+                            ds[i].setTen(TienIch.nhapChuoi("Nhập tên mới: "));
                             break;
                         case 3:
                             double giaMoi;
-                            do {
-                                System.out.print("Nhập giá nhập mới (>0): ");
-                                giaMoi = sc.nextDouble();
-                                sc.nextLine();
-                                if (giaMoi <= 0) {
-                                    System.out.println("Giá phải là số dương!");
-                                }
-                            } while (giaMoi <= 0);
+                            giaMoi = TienIch.nhapGiaTien("Nhập giá nhập mới: ");
                             ds[i].setGiaNhap(giaMoi);
                             break;
                         case 4:
                             int slMoi;
-                            do {
-                                System.out.print("Nhập số lượng mới (>0): ");
-                                slMoi = sc.nextInt();
-                                sc.nextLine();
-                                if (slMoi <= 0) {
-                                    System.out.println("Số lượng phải là số nguyên dương!");
-                                }
-                            } while (slMoi <= 0);
+                            slMoi= TienIch.nhapSoNguyenDuong("Nhập số lượng mới: ")
                             ds[i].setSoLuong(slMoi);
                             break;
                         case 0:

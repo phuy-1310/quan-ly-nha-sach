@@ -1,6 +1,6 @@
 package mathang;
 
-
+import tienich.*;
 public class Truyen extends MatHang {
     private final double thue = 25;
     private final double loinhuan = 20;

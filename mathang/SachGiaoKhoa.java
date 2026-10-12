@@ -1,5 +1,7 @@
 package mathang;
 
+import tienich.*;
+
 public class SachGiaoKhoa extends MatHang{
     private final double thue = 0;
     private final double loinhuan = 0;

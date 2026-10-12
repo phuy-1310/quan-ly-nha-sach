@@ -6,12 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import mathang.DoChoi;
-import mathang.DungCuHocTap;
-import phieunhap.ChiTietPhieuNhap;
-import phieunhap.PhieuNhap;
-import phieunhap.TrangThaiPN;
-
+import phieunhap.*;
+import mathang.*;
+import interfaces.IFileIO;
+import tienich.*;
 
 
 public class Kho implements IFileIO  {

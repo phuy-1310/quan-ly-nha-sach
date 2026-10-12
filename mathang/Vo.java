@@ -1,5 +1,7 @@
 package mathang;
 
+import tienich.*;
+
 public class Vo extends MatHang{
     private final double thue = 10;
     private final double loinhuan = 15;

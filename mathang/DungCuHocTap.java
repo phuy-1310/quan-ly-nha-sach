@@ -1,5 +1,8 @@
 package mathang;
 
+import tienich.*;
+
+
 public class DungCuHocTap extends MatHang {
     private final double thue = 12;
     private final double loinhuan = 18;

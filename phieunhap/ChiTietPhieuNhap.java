@@ -1,5 +1,7 @@
 package phieunhap;
 
+import mathang.MatHang;
+
 public class ChiTietPhieuNhap {
     private MatHang matHang;
     private int soLuong;

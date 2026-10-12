@@ -2,6 +2,9 @@ package phieunhap;
 
 import java.time.LocalDate;
 
+import interfaces.IQuanLy;
+import tienich.*;
+
 public class DanhSachPhieuNhap implements IQuanLy {
     private PhieuNhap[] dsPN;
     private int soLuongPN;

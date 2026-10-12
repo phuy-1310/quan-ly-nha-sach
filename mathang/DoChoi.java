@@ -1,5 +1,6 @@
 package mathang;
 
+import tienich.*;
 
 public class DoChoi extends MatHang{
     private final double thue = 20;

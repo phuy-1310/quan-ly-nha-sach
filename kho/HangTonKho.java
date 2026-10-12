@@ -1,5 +1,8 @@
 package kho;
 
+import interfaces.IGetMa;
+import mathang.MatHang;
+
 public class HangTonKho implements IGetMa{
     private MatHang matHang;
     private int soLuong;

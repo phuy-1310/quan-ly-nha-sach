@@ -1,6 +1,9 @@
 package mathang;
 
-public abstract class MatHang {
+import tienich.*;
+import interfaces.IGetMa;
+
+public abstract class MatHang implements IGetMa {
     private String ma;
     private String ten;
     private double giaNhap;
@@ -25,6 +28,7 @@ public abstract class MatHang {
     }
 
     // Get_xx & Set_xx
+    @Override 
     public String getMa() {
         return ma;
     }
