@@ -16,7 +16,7 @@ public class TienIch {
             try{
                 System.out.println(thongbao);
                 num=Integer.parseInt(sc.nextLine());
-                if(num>0)
+                if(num>=0)
                     break;
             } 
             catch(NumberFormatException e){
