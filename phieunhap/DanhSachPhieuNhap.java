@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 
 import interfaces.IFileIO;
 import tienich.*;
@@ -145,7 +146,7 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
         try(PrintWriter pw = new PrintWriter(new FileWriter(duongDan))){
             for(int i=0;i<soLuongPN;i++){
                 PhieuNhap pn = dsPN[i];
-                for(int j=0;i<pn.getSoLuongNhap();j++){
+                for(int j=0;j<pn.getSoLuongNhap();j++){
                     pw.println(pn.getMa()+";"+pn.getDSMH()[j].toString());
                 }
             }
@@ -172,8 +173,15 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
                 int soLuong=Integer.parseInt(phan[5].trim());
 
                 int vtPn = TienIch.timKiemViTri(dsPN, soLuongPN, maPn);
-                if(vtPn==-1) vtPn=soLuongPN;
-
+                if(vtPn==-1){
+                    vtPn=soLuongPN;
+                    dsPN[vtPn]=new PhieuNhap();
+                    String ncc=(phan[7]!=null) ? phan[7]:phan[6]; 
+                    ChiTietPhieuNhap ct = new ChiTietPhieuNhap(LocalDate.now(), ncc);
+                    dsPN[vtPn].setChiTiet(ct);
+                    dsPN[vtPn].setMaPN(maPn);
+                    dsPN[vtPn].setTrangThai(TrangThaiPN.CHO_DUYET);
+                }
                 switch (danhMuc) {
                     case "Sách":
                         String tacGiaSach=phan[6].trim();
