@@ -45,9 +45,14 @@ public class HangTonKho implements IGetMa{
             return false;
         }
     }
-
+    public String toString(){
+        if(matHang==null) return "(Hàng tồn rỗng)";
+        return matHang.getMa() + " - " + matHang.getTen() + " | tồn kho: " + soLuong +" | giá nhập: " + matHang.getGiaNhap();
+    }
     public void xuat(){
         String ten = (matHang==null) ? "":matHang.getTen();
-        System.out.printf("%-10s %-20s %-10d\n", getMa(), ten, soLuong);
+        String ma = (matHang==null) ? "":matHang.getMa();
+        double giaNhap = matHang.getGiaNhap();
+        System.out.printf("|%-20s|%-20s|%-15s|%-20s|%-20s|%n", ma, ten, giaNhap, soLuong, matHang.tinhGiaBan());
     }
 }
