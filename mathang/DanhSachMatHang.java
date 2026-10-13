@@ -243,7 +243,15 @@ public class DanhSachMatHang implements IQuanLy {
     }
 
     //timkiem
-
+    public MatHang timKiem_hang(String ma) {
+        for (int i = 0; i < soluong; i++) {
+            if (ds[i].getMa().equalsIgnoreCase(ma)) {
+                return ds[i]; // Trả về đối tượng mặt hàng nếu tìm thấy
+            }
+        }
+        return null; // Trả về null nếu không tìm thấy
+    }
+    
     public void timkiem_hang(){
         String timma = TienIch.nhapChuoi("Nhập mã hàng cần tìm:");
         boolean found = false;
