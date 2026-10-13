@@ -70,4 +70,9 @@ public class SachGiaoKhoa extends MatHang{
     public String getDanhMuc(){
         return "Sách giáo khoa";
     }
+
+    @Override 
+    public String toString(){
+        return super.toString()+";"+getMonhoc()+";"+getNhaXuatBan();
+    }
 }

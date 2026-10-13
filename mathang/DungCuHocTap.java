@@ -72,4 +72,10 @@ public class DungCuHocTap extends MatHang {
         return "Dụng cụ học tập";
     }
 
+
+        @Override 
+    public String toString(){
+        return super.toString()+";"+getLoaidungcu()+";"+getnhaSX();
+    }
+
 }

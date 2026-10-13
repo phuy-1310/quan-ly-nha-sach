@@ -60,4 +60,10 @@ public class Khac extends MatHang{
     public String getDanhMuc(){
         return "Khác";
     }
+
+
+    @Override 
+    public String toString(){
+        return super.toString()+";"+getnhaSX();
+    }
 }

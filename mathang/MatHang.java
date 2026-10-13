@@ -76,8 +76,16 @@ public abstract class MatHang implements IGetMa {
         System.out.println("Số lượng: " + soLuong);
         System.out.println("Giá bán: " + tinhGiaBan());
     }
-
+    
+    
+    //coi mặt hàng thuộc danh mục gì
     public String getDanhMuc(){
         return " ";
+    }
+
+    
+    //ghi mặt hàng ra thành String để ghi File
+    public String toString(){
+        return getDanhMuc()+";"+getMa()+";"+getTen()+";"+getGiaNhap()+";"+getSoLuong();
     }
 }

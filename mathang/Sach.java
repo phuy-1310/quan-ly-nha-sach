@@ -77,4 +77,9 @@ public class Sach extends MatHang {
     public String getDanhMuc(){
         return "Sách";
     }
+
+    @Override 
+    public String toString(){
+        return super.toString()+";"+getTacGia()+";"+getNhaXuatBan()+";"+getTheloai();
+    }
 }

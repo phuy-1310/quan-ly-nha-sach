@@ -69,4 +69,9 @@ public class DoChoi extends MatHang{
     public String getDanhMuc(){
         return "Đồ chơi";
     }
+
+    @Override 
+    public String toString(){
+        return super.toString()+";"+getdotuoi()+";"+getnhaSX();
+    }
 }

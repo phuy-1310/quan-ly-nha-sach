@@ -59,4 +59,9 @@ public class TrangTri extends MatHang{
     public String getDanhMuc(){
         return "Trang trí";
     }
+
+    @Override 
+    public String toString(){
+        return super.toString()+";"+ getnhaSX();
+    }
 }

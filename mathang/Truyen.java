@@ -78,4 +78,9 @@ public class Truyen extends MatHang {
     public String getDanhMuc(){
         return "Truyện";
     }
+
+    @Override 
+    public String toString(){
+        return super.toString()+";"+getTacGia()+";"+getNhaXuatBan()+";"+getTheloai();
+    }
 }

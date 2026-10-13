@@ -78,4 +78,9 @@ public class TieuThuyet extends MatHang{
     public String getDanhMuc(){
         return "Tiểu thuyết";
     }
+
+    @Override 
+    public String toString(){
+        return super.toString()+";"+getTacGia()+";"+getNhaXuatBan()+";"+getTheloai();
+    }
 }

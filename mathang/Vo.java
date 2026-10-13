@@ -71,4 +71,9 @@ public class Vo extends MatHang{
     public String getDanhMuc(){
         return "Vở";
     }
+
+    @Override 
+    public String toString(){
+        return super.toString()+";"+getSotrang()+";"+getnhaSX();
+    }
 }
