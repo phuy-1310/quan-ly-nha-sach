@@ -148,7 +148,7 @@ public class DanhSachHoaDon implements IQuanLy, IFileIO{
         do {
             System.out.println("Nhập mã mặt hàng cần mua");
             String maHang = TienIch.nhapChuoi("Nhập mã mặt hàng: ");
-            MatHang mh = this.dsmh.timkiem_hang(maHang);
+            MatHang mh = this.dsmh.timKiem_hang(maHang);
             if(mh == null){
                 System.out.println("Không tìm thấy mặt hàng");
             }
@@ -235,7 +235,7 @@ public class DanhSachHoaDon implements IQuanLy, IFileIO{
 
                 for (int j = 0; j < soLuongCT; j++) {
                     String[] ctData = br.readLine().split(";");
-                    MatHang mh = dsmh.timkiem_hang(ctData[0]);
+                    MatHang mh = dsmh.timKiem_hang(ctData[0]);
                     int slMua = Integer.parseInt(ctData[1]);
 
                     if (mh != null) {
