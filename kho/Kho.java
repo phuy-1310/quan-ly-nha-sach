@@ -40,7 +40,7 @@ public class Kho implements IFileIO, IQuanLy  {
             sum+=dsTonKho[i].getSoLuong();
         return sum;
     }
-//kho trống
+//kho còn trống
     public int getConTrong(){
         return sucChuaToiDa-getTongSoLuongTon();
     }
@@ -82,52 +82,19 @@ public class Kho implements IFileIO, IQuanLy  {
 //nhập hàng từ phiếu: 
     public boolean nhapHangTuPhieu(PhieuNhap pn){
         if(pn == null) return false;
-        int soLuongCanNhap =0;
-        for(int i=0;i<pn.getSoLuongCT();i++){
-            ChiTietPhieuNhap ct = pn.getChiTiet()[i];
-            soLuongCanNhap+= ct.getSoLuong();
-        }
-        if(soLuongCanNhap>getConTrong()){
+        if(pn.getTongSlNhap()>getConTrong()){
             System.out.println("Kho không đủ chỗ trống!");
             pn.setTrangThai(PhieuNhap.TrangThaiPN.DA_HUY);
             return false;
         }
-        for(int i=0; i<pn.getSoLuongCT();i++){
-            ChiTietPhieuNhap ct = pn.getChiTiet()[i];
-            tangTonKho(ct.getMatHang(), ct.getSoLuong());
+        for(int i=0; i<pn.getSoLuongNhap();i++){
+            tangTonKho(pn.getDSMH()[i], pn.getDSMH()[i].getSoLuong());
         }
         pn.setTrangThai(PhieuNhap.TrangThaiPN.DA_DUYET);
         System.out.println("Đã tăng hàng tồn từ phiếu nhập: "+pn.getMa());
         return true;
     }
 
-
-//nhập tay mặt hàng mới + nhập vào kho
-    public HangTonKho taoHangTonMoi(){
-        System.out.println("1. Sách 2. SGK 3. Tiểu thuyết  4. Vở  5. Truyện");
-        System.out.println("6. Dụng cụ học tập  7. Trang trí  8. Đồ chơi  9. Khác");
-        int loai = TienIch.nhapSoNguyenDuong("Nhập loại mặt hàng muốn nhập vào kho: ");
-        HangTonKho htk;
-        MatHang mh;
-        switch(loai){
-            case 1: mh=new Sach(); break;
-            case 2: mh = new SachGiaoKhoa(); break;
-            case 3: mh = new TieuThuyet(); break;
-            case 4: mh = new Vo(); break;
-            case 5: mh = new Truyen(); break;
-            case 6: mh = new DungCuHocTap(); break;
-            case 7: mh = new TrangTri(); break;
-            case 8: mh = new DoChoi(); break;
-            case 9: mh = new Khac(); break;
-            default: System.out.println("Chọn kh hợp lệ"); return null;
-        }
-        mh.nhap();
-        System.out.println("Đang nhập từ kho nên tự đông chỉnh số lượng trong mặt hàng về 0 ");
-        mh.setSoLuong(0); //hàng mới chưa lên dsmh sl =0
-        int sl = TienIch.nhapSoNguyenDuong("Nhập số lượng nhập vào kho: ");
-        htk = new HangTonKho(mh,sl);
-        return htk;
-    }
 //tìm hàng trong kho theo mã
     public void timHangTon(){
         String ma = TienIch.nhapChuoi("Nhập mã cần tìm: ");
@@ -142,8 +109,9 @@ public class Kho implements IFileIO, IQuanLy  {
 
     @Override
     public void them(){ //thêm 1 hàng vào kho
-        HangTonKho htMoi = taoHangTonMoi();
-        if(htMoi==null){
+        HangTonKho htMoi = new HangTonKho();
+        htMoi.taoHangTonMoi();
+        if(htMoi.getMatHang()==null){
             System.out.println("Tạo hàng tồn thất bại!");
             return;
         }
@@ -179,6 +147,10 @@ public class Kho implements IFileIO, IQuanLy  {
         soLuongMatHang--;
         System.out.println("Đã xóa mã " + ma + " khỏi kho.");
     }
+
+
+
+
     @Override 
     public void sua(){
         if(soLuongMatHang==0){

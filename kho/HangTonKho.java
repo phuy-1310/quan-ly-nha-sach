@@ -1,7 +1,8 @@
 package kho;
 
 import interfaces.IGetMa;
-import mathang.MatHang;
+import mathang.*;
+import tienich.TienIch;
 
 public class HangTonKho implements IGetMa{
     private MatHang matHang;
@@ -45,6 +46,33 @@ public class HangTonKho implements IGetMa{
             System.out.println("Không đủ hàng!");
             return false;
         }
+    }
+
+
+    public HangTonKho taoHangTonMoi(){
+        System.out.println("1. Sách 2. SGK 3. Tiểu thuyết  4. Vở  5. Truyện");
+        System.out.println("6. Dụng cụ học tập  7. Trang trí  8. Đồ chơi  9. Khác");
+        int loai = TienIch.nhapSoNguyenDuong("Nhập loại mặt hàng muốn nhập vào kho: ");
+        HangTonKho htk;
+        MatHang mh;
+        switch(loai){
+            case 1: mh=new Sach(); break;
+            case 2: mh = new SachGiaoKhoa(); break;
+            case 3: mh = new TieuThuyet(); break;
+            case 4: mh = new Vo(); break;
+            case 5: mh = new Truyen(); break;
+            case 6: mh = new DungCuHocTap(); break;
+            case 7: mh = new TrangTri(); break;
+            case 8: mh = new DoChoi(); break;
+            case 9: mh = new Khac(); break;
+            default: System.out.println("Chọn kh hợp lệ"); return null;
+        }
+        mh.nhap();
+        System.out.println("Đang nhập hàng nên tự đông chỉnh số lượng trong mặt hàng về 0 ");
+        mh.setSoLuong(0); //hàng mới chưa lên dsmh sl =0
+        int sl = TienIch.nhapSoNguyenDuong("Nhập số lượng nhập vào kho: ");
+        htk = new HangTonKho(mh,sl);
+        return htk;
     }
 
     public void xuat(){
