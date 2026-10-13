@@ -1,49 +1,38 @@
 package phieunhap;
 
-import mathang.MatHang;
+import java.time.LocalDate;
+
 
 public class ChiTietPhieuNhap {
-    private MatHang matHang;
-    private int soLuong;
-    private double giaNhap;
+    private LocalDate ngayNhap;
+    private String nhaCungCap;
 
 //constructor
     public ChiTietPhieuNhap(){
-        this.matHang=null;
-        this.soLuong=0;
-        this.giaNhap=0;
+        ngayNhap =  LocalDate.now();
+        nhaCungCap = "Trống";
     }
 
-    public ChiTietPhieuNhap(MatHang matHang, int soluong, double gianhap){
-        this.matHang=matHang;
-        this.setSoLuong(soluong);
-        this.setGiaNhap(gianhap);
+    public ChiTietPhieuNhap(LocalDate ngayNhap, String ncc){
+        this.ngayNhap = ngayNhap;
+        setNhaCC(ncc);
     }
-    
+ 
 //getter
-    public MatHang getMatHang(){
-        return matHang;
-    }
-    public int getSoLuong(){
-        return soLuong;
-    }
-    public double getGiaNhap(){
-        return giaNhap;
+    public LocalDate getNgayNhap(){
+        return ngayNhap;
     }
     
+    public String getNhaCungCap(){
+        return nhaCungCap;
+    }
 //setter
-    public void setMatHang(MatHang matHang){
-        this.matHang=matHang;
-    }
-    public void setSoLuong(int soLuong){
-        this.soLuong = (soLuong<0)? 0:soLuong;
-    }
-    public void setGiaNhap(double giaNhap){
-        this.giaNhap = (giaNhap<0)? 0:giaNhap;
+    public void setNgayNhap(LocalDate ngayNhap){
+        this.ngayNhap=ngayNhap;
     }
 
-//tổng tiền hàng nhập
-    public double giaThanh(){
-        return giaNhap*soLuong;
-    } 
+    public void setNhaCC(String ncc){
+        this.nhaCungCap=ncc;
+    }
 }
+
