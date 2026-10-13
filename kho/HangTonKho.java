@@ -14,6 +14,7 @@ public class HangTonKho implements IGetMa{
         matHang=null;
         soLuong=0;
     }
+
     public HangTonKho(MatHang matHang, int soLuong){
         this.matHang=matHang;
         this.soLuong=(soLuong<0) ? 0:soLuong;
@@ -45,7 +46,7 @@ public class HangTonKho implements IGetMa{
             return false;
         }
     }
-    
+
     public void xuat(){
         String ten = (matHang==null) ? "":matHang.getTen();
         String ma = (matHang==null) ? "":matHang.getMa();

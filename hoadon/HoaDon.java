@@ -1,13 +1,11 @@
 package hoadon;
-//import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 
+
+import java.time.LocalDate;
 import khachhang.KhachHang;
 import mathang.MatHang;
 import nhanvien.NhanVienBanHang;
 import thanhtoan.IThanhToan;
-import kho.Kho;
-//import kho.HangTonKho;
 import tienich.TienIch;
 
 public class HoaDon {
@@ -99,7 +97,7 @@ public class HoaDon {
         }
     }
     // Thanh toán + tự động giảm số lượng của mặt hàng
-    public boolean thanhToan(Kho kho) {
+    public boolean thanhToan() {
         if (daThanhToan) {
             System.out.println("Hóa đơn này đã được thanh toán!");
             return false;
