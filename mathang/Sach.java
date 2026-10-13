@@ -72,4 +72,9 @@ public class Sach extends MatHang {
     public double tinhGiaBan(){
         return getGiaNhap() * (1 + loinhuan/100)*(1+thue/100);
     }
+
+    @Override 
+    public String getDanhMuc(){
+        return "Sách";
+    }
 }

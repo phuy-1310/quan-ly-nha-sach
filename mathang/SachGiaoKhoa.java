@@ -65,4 +65,9 @@ public class SachGiaoKhoa extends MatHang{
 
         System.out.println("Giá bán: " + tinhGiaBan());
     }
+
+    @Override 
+    public String getDanhMuc(){
+        return "Sách giáo khoa";
+    }
 }

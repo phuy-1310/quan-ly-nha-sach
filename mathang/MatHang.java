@@ -76,4 +76,8 @@ public abstract class MatHang implements IGetMa {
         System.out.println("Số lượng: " + soLuong);
         System.out.println("Giá bán: " + tinhGiaBan());
     }
+
+    public String getDanhMuc(){
+        return " ";
+    }
 }

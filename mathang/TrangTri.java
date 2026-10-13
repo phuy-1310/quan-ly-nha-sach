@@ -54,4 +54,9 @@ public class TrangTri extends MatHang{
 
         System.out.println("Giá bán: " + tinhGiaBan());
     }
+
+    @Override 
+    public String getDanhMuc(){
+        return "Trang trí";
+    }
 }
