@@ -101,6 +101,17 @@ public class PhieuNhap implements IGetMa, IQuanLy{
         dsMH[soLuongNhap]=mhMoi;
         soLuongNhap++;
     }
+    public void them(MatHang mh){
+        if(soLuongNhap==dsMH.length){
+            MatHang[] mangmoi = new MatHang[dsMH.length*2];
+            for(int i=0;i<soLuongNhap;i++){
+            mangmoi[i]=dsMH[i];
+            }
+        dsMH=mangmoi;
+        }
+        dsMH[soLuongNhap]=mh;
+        soLuongNhap++;  
+    }
 
     @Override
     public void nhap(){
