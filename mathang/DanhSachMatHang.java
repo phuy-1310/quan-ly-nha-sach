@@ -666,5 +666,4 @@ public class DanhSachMatHang implements IQuanLy {
                 break;
         }
     }
-
 }
