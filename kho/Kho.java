@@ -220,9 +220,8 @@ public class Kho implements IFileIO, IQuanLy  {
     @Override
     public void ghiFile(String duongDan){
         try(PrintWriter pw = new PrintWriter(new FileWriter(duongDan))){
-            pw.printf("|%-20s|%-20s|%-15s|%-20s|%-20s|%n","Mã","Tên","Giá Nhập", "Số Lượng", "Giá Bán");
             for(int i = 0; i < soLuongMatHang; i++){
-                pw.println(dsTonKho[i].toString());
+                pw.println(dsTonKho[i].getMatHang().toString());
             }
             System.out.println("Đã ghi " + soLuongMatHang + " dòng tồn kho vào file: " + duongDan);
         } catch(IOException e){

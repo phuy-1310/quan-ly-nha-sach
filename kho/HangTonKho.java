@@ -45,10 +45,7 @@ public class HangTonKho implements IGetMa{
             return false;
         }
     }
-    public String toString(){
-        if(matHang==null) return "(Hàng tồn rỗng)";
-        return matHang.getMa() + " - " + matHang.getTen() + " | tồn kho: " + soLuong +" | giá nhập: " + matHang.getGiaNhap();
-    }
+    
     public void xuat(){
         String ten = (matHang==null) ? "":matHang.getTen();
         String ma = (matHang==null) ? "":matHang.getMa();
