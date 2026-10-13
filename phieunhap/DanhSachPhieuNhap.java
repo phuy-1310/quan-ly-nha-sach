@@ -20,6 +20,7 @@ import java.io.PrintWriter;
 
 import interfaces.IFileIO;
 import tienich.*;
+import kho.Kho;
 
 public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
     private PhieuNhap[] dsPN;
@@ -234,5 +235,20 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
         }catch(IOException e){
             System.out.println("Lỗi đọc file "+e);
         }  
+    }
+
+    public void nhapKho(Kho kho){
+        for(int i=0;i<soLuongPN;i++){
+            dsPN[i].xuat();
+            String chon = TienIch.nhapChuoi("Xác nhận nhập hàng?(y/n)");
+            if(chon.equals("y")){
+                kho.nhapHangTuPhieu(dsPN[i]);
+                System.out.println("Đã nhập kho thành công!");
+            }
+            else{
+                dsPN[i].setTrangThai(TrangThaiPN.DA_HUY);
+                System.out.println("Đã hủy phiếu!");
+            }
+        }
     }
 }
