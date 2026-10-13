@@ -1,12 +1,10 @@
 package mathang;
-import java.util.Scanner;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.BufferedReader;
 
+
+
+import kho.*;
 import tienich.*;
 import interfaces.IQuanLy;
-import kho.*;
 
 public class DanhSachMatHang implements IQuanLy {
     private MatHang[] ds;
@@ -20,6 +18,10 @@ public class DanhSachMatHang implements IQuanLy {
         soluong = 0;
     }
 
+    public int getSoMH(){
+        return soluong;
+    }
+
         //Nhap hang(nhap tu kho)
     @Override
     public void nhap(){
@@ -29,7 +31,8 @@ public class DanhSachMatHang implements IQuanLy {
         nhapTuKho(kho, maCanLay, soLuongLay);
     }
     public void nhapTuKho(Kho kho, String ma, int soLuongLay) {
-            boolean found = false;
+        System.out.println("Đang xử lý, xin vui lòng chờ ! ...");
+        boolean found = false;
             for (int i = 0; i < kho.getSoLuongTon(); i++) {
                 HangTonKho htk = kho.getDanhSachTon()[i];
                 if (htk.getMatHang().getMa().equalsIgnoreCase(ma)) {
@@ -63,6 +66,42 @@ public class DanhSachMatHang implements IQuanLy {
             if (!found) {
                 System.out.println("Không tìm thấy mặt hàng có mã " + ma + " trong kho.");
             }
+    }
+
+    //Nhập hàng loạt từ kho (20% mỗi loại), nào còn dưới 15 cuốn thì sẽ kh được nhập hàng loạt
+    public void nhapHangLoat(Kho kho) {
+        System.out.println("Nhập hàng loạt từ kho:");
+            for (int i = 0; i < kho.getSoLuongTon(); i++) {
+            HangTonKho htk = kho.getDanhSachTon()[i];
+                if (htk.getSoLuong() < 15) {
+                    System.out.println("Mặt hàng mã " + htk.getMatHang().getMa() +
+                            " chỉ còn " + htk.getSoLuong() +
+                            " sản phẩm, không nhập hàng loạt.");
+                    continue;
+                }
+            int soLuongLay = (int)(htk.getSoLuong() * 0.2);
+            if (soLuongLay > 0) {
+                htk.giamSoLuong(soLuongLay);
+                boolean daCoTrongDS = false;
+                for (int j = 0; j < soluong; j++) {
+                    if (ds[j].getMa().equalsIgnoreCase(htk.getMatHang().getMa())) {
+                        ds[j].setSoLuong(ds[j].getSoLuong() + soLuongLay);
+                        daCoTrongDS = true;
+                        break;
+                    }
+                }
+                if (!daCoTrongDS) {
+                    MatHang mh = htk.getMatHang();
+                    mh.setSoLuong(soLuongLay);
+                    if (soluong == ds.length) tangkichthuoc();
+                    ds[soluong++] = mh;
+                }
+
+                System.out.println("Đã nhập xong mặt hàng mã "
+                        + htk.getMatHang().getMa()
+                        + " với số lượng " + soLuongLay);
+            }
+        }
     }
 
 
@@ -209,6 +248,7 @@ public class DanhSachMatHang implements IQuanLy {
                         case 1:
                             System.out.print("Nhập mã mới: ");
                             String maMoi = TienIch.nhapMa(ds, soluong, ma); //hàm này có ktra kh trùng
+                            System.out.println("Đã chuyển đổi mã " + ds[i].getMa() + "thành " + ma);
                             ds[i].setMa(maMoi);
                             break;
                         case 2:
@@ -221,7 +261,7 @@ public class DanhSachMatHang implements IQuanLy {
                             break;
                         case 4:
                             int slMoi;
-                            slMoi= TienIch.nhapSoNguyenDuong("Nhập số lượng mới: ")
+                            slMoi= TienIch.nhapSoNguyenDuong("Nhập số lượng mới: ");
                             ds[i].setSoLuong(slMoi);
                             break;
                         case 0:
@@ -252,7 +292,7 @@ public class DanhSachMatHang implements IQuanLy {
         return null; // Trả về null nếu không tìm thấy
     }
     
-    public void timkiem_hang(){
+    public void timkiem(){
         String timma = TienIch.nhapChuoi("Nhập mã hàng cần tìm:");
         boolean found = false;
         for(int i = 0 ; i< soluong;i++){
@@ -308,6 +348,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai11) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào có tên tác giả này !");
                         }
+                        break;
 
                     case 2:
                         boolean tontai12 = false;
@@ -324,6 +365,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai12) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào có thể loại này !");
                         }
+                        break;
 
                     case 3:
                         boolean tontai13 = false;
@@ -340,6 +382,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai13) {
                             System.out.println("Không tồn tại bất kì sách nào thuộc NXB này !");
                         }
+                        break;
 
                     default: break;
                 }
@@ -365,6 +408,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai21) {
                             System.out.println("Không tồn tại bất kì SGK mặt hàng nào thuộc NXB này !");
                         }
+                        break;
 
                     case 2:
                         boolean tontai22 = false;
@@ -381,6 +425,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai22) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào về môn học này !");
                         }
+                        break;
 
                     default: break;
                 }
@@ -410,6 +455,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai31) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào có tên tác giả này !");
                         }
+                        break;
 
                     case 2:
                         boolean tontai32 = false;
@@ -426,6 +472,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai32) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào có thể loại này !");
                         }
+                        break;
 
                     case 3:
                         boolean tontai33 = false;
@@ -442,6 +489,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai33) {
                             System.out.println("Không tồn tại bất kì sách nào thuộc NXB này");
                         }
+                        break;
 
                     default:
                         break;
@@ -469,6 +517,8 @@ public class DanhSachMatHang implements IQuanLy {
                                 }
                             }
                         }
+                        break;
+
                     case 2:
                         boolean tontai42 = false;
                         String boloc42 = TienIch.nhapChuoi("Nhập nhà sản xuất: ");
@@ -485,6 +535,7 @@ public class DanhSachMatHang implements IQuanLy {
                                 }
                             }
                         }
+                        break;
                     default:
                         break;
                 }
@@ -512,6 +563,8 @@ public class DanhSachMatHang implements IQuanLy {
                         if(!tontai51){
                             System.out.println("Không tồn tại bất kì mặt hàng nào có tên tác giả này !");
                         }
+                        break;
+
                     case 2:
                         boolean tontai52 =false;
                         String boloc52 = TienIch.nhapChuoi("Nhập thể loại cần tìm: ");
@@ -527,6 +580,8 @@ public class DanhSachMatHang implements IQuanLy {
                         if(!tontai52){
                             System.out.println("Không tồn tại bất kì mặt hàng nào có thể loại này !");
                         }
+                        break;
+
                     case 3:
                         boolean tontai53 =false;
                         String boloc53 = TienIch.nhapChuoi("Nhập NXB cần tìm: ");
@@ -542,6 +597,9 @@ public class DanhSachMatHang implements IQuanLy {
                         if(!tontai53){
                             System.out.println("Không tồn tại bất kì mặt hàng nào thuộc NXB này !");
                         }
+                        break;
+
+                    default: break;
                 }
 
             case 6:
@@ -566,6 +624,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai61) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào thuộc loại dụng cụ này !");
                         }
+                        break;
                     case 2:
                         boolean tontai62 = false;
                         String boloc62 = TienIch.nhapChuoi("Nhập nhà sản xuất cần tìm: ");
@@ -581,6 +640,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai62) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào thuộc nhà sản xuất này !");
                         }
+                        break;
                     default: break;
                 }
 
@@ -604,6 +664,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai71) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào thuộc nhà sản xuất này !");
                         }
+                        break;
                     default: break;
                 }
 
@@ -628,6 +689,8 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai81) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào thuộc nhà sản xuất này !");
                         }
+                        break;
+
                     case 2:
                         boolean tontai82 = false;
                         int boloc82 = TienIch.nhapSoNguyenDuong("Nhập độ tuổi đồ chơi cần tìm: ");
@@ -643,6 +706,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai82) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào thuộc độ tuổi này !");
                         }
+                        break;
                     default:
                         break;
                 }
@@ -667,6 +731,7 @@ public class DanhSachMatHang implements IQuanLy {
                         if (!tontai91) {
                             System.out.println("Không tồn tại bất kì mặt hàng nào thuộc nhà sản xuất này !");
                         }
+                        break;
                     default: break;
                 }
 
