@@ -18,6 +18,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import interfaces.IFileIO;
 import tienich.*;
@@ -47,7 +48,7 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
             return;
         }    
         System.out.println("\n======DANH SÁCH PHIẾU NHẬP======");
-        System.out.printf("%-15s %-15s %-15s\n %", "Mã Phiếu", "Ngày Nhập", "Nhà Cung Cấp");
+        System.out.printf("%-15s %-15s %-15s\n", "Mã Phiếu", "Ngày Nhập", "Nhà Cung Cấp");
         System.out.println("--------------------------------------------------------");
         for(int i=0;i<soLuongPN;i++){
             PhieuNhap pn = dsPN[i];
@@ -147,7 +148,7 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
             for(int i=0;i<soLuongPN;i++){
                 PhieuNhap pn = dsPN[i];
                 for(int j=0;j<pn.getSoLuongNhap();j++){
-                    pw.println(pn.getMa()+";"+pn.getDSMH()[j].toString());
+                    pw.println(pn.getMa()+";"+pn.getChiTiet().getNgayNhap()+";"+pn.getDSMH()[j].toString()+";"+pn.getTrangThai());
                 }
             }
             System.out.println("Đã ghi thành công "+ soLuongPN +"phiếu nhập vào file");
@@ -165,80 +166,100 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
                 String phan[]=dong.split(";");
 
                 String maPn=phan[0].trim();
-                String danhMuc=phan[1].trim();
-                String ma=phan[2].trim();
-                String ten=phan[3].trim();
 
-                double gianhap=Double.parseDouble(phan[4].trim());
-                int soLuong=Integer.parseInt(phan[5].trim());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM.yyyy");
+                LocalDate ngay = LocalDate.parse(phan[1].trim(), formatter);
+
+                String danhMuc=phan[2].trim();
+                String ma=phan[3].trim();
+                String ten=phan[4].trim();
+
+                double gianhap=Double.parseDouble(phan[5].trim());
+                int soLuong=Integer.parseInt(phan[6].trim());
 
                 int vtPn = TienIch.timKiemViTri(dsPN, soLuongPN, maPn);
                 if(vtPn==-1){
                     vtPn=soLuongPN;
+                    soLuongPN++;
                     dsPN[vtPn]=new PhieuNhap();
-                    String ncc=(phan[7]!=null) ? phan[7]:phan[6]; 
-                    ChiTietPhieuNhap ct = new ChiTietPhieuNhap(LocalDate.now(), ncc);
+                    ChiTietPhieuNhap ct = new ChiTietPhieuNhap(ngay, "trống");
                     dsPN[vtPn].setChiTiet(ct);
                     dsPN[vtPn].setMaPN(maPn);
-                    dsPN[vtPn].setTrangThai(TrangThaiPN.CHO_DUYET);
+                    TrangThaiPN tt = TrangThaiPN.valueOf(phan[phan.length-1].trim());
+                    dsPN[vtPn].setTrangThai(tt);
+                }
+                if(dsPN[vtPn].getTrangThai()==TrangThaiPN.DA_HUY ||
+                dsPN[vtPn].getTrangThai()==TrangThaiPN.DA_DUYET){
+                    System.out.println("Phiếu này đã duyệt hoặc hủy!");
+                    continue;
                 }
                 switch (danhMuc) {
                     case "Sách":
-                        String tacGiaSach=phan[6].trim();
-                        String nhaXuatBanSach=phan[7].trim();
-                        String theLoaiSach=phan[8].trim();
+                        String tacGiaSach=phan[7].trim();
+                        String nhaXuatBanSach=phan[8].trim();
+                        String theLoaiSach=phan[9].trim();
                         Sach themSach = new Sach(ma, ten, gianhap, soLuong ,tacGiaSach, nhaXuatBanSach, theLoaiSach);
                         dsPN[vtPn].them(themSach);
+                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBanSach);
                         break;
                     case "Tiểu thuyết":
-                        String tacGiaTieuThuyet=phan[6].trim();
-                        String nhaXuatBanTieuThuyet=phan[7].trim();
-                        String theLoaiTieuThuyet=phan[8].trim();
+                        String tacGiaTieuThuyet=phan[7].trim();
+                        String nhaXuatBanTieuThuyet=phan[8].trim();
+                        String theLoaiTieuThuyet=phan[9].trim();
                         TieuThuyet themTieuThuyet = new TieuThuyet(ma, ten, gianhap, soLuong ,tacGiaTieuThuyet, nhaXuatBanTieuThuyet, theLoaiTieuThuyet);
                         dsPN[vtPn].them(themTieuThuyet);
+                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBanTieuThuyet);
                         break;
                     case "Sách giáo khoa":
-                        String monHoc = phan[6].trim();
-                        String nhaXuatBan= phan[7].trim();
+                        String monHoc = phan[7].trim();
+                        String nhaXuatBan= phan[8].trim();
                         SachGiaoKhoa themSGK = new SachGiaoKhoa(ma, ten, gianhap, soLuong, monHoc, nhaXuatBan);
                         dsPN[vtPn].them(themSGK);
+                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBan);
                         break;
                     case "Truyện":
-                        String tacGiaTruyen=phan[6].trim();
-                        String nhaXuatBanTruyen=phan[7].trim();
-                        String theLoaiTruyen=phan[8].trim(); 
+                        String tacGiaTruyen=phan[7].trim();
+                        String nhaXuatBanTruyen=phan[8].trim();
+                        String theLoaiTruyen=phan[9].trim(); 
                         Truyen themTruyen = new Truyen(ma, ten, gianhap, soLuong ,tacGiaTruyen, nhaXuatBanTruyen, theLoaiTruyen);
                         dsPN[vtPn].them(themTruyen);
+                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBanTruyen);
                         break;   
                     case "Trang trí":
-                        String nhaSXTrangTri=phan[6].trim();
+                        String nhaSXTrangTri=phan[7].trim();
                         TrangTri themTrangTri = new TrangTri(ma, ten, gianhap, soLuong, nhaSXTrangTri);                    
                         dsPN[vtPn].them(themTrangTri);
+                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSXTrangTri);
                         break;
                     case "Vở":
-                        int soTrang=Integer.parseInt(phan[6].trim());
-                        String nhaSXVo=phan[7].trim();
+                        int soTrang=Integer.parseInt(phan[7].trim());
+                        String nhaSXVo=phan[8].trim();
                         Vo themVo = new Vo(ma, ten, gianhap, soLuong, soTrang, nhaSXVo);
                         dsPN[vtPn].them(themVo);
+                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSXVo);
                         break;
                     case "Đồ chơi":
-                        int doTuoi=Integer.parseInt(phan[6].trim());
-                        String nhaSXDoChoi=phan[7].trim();
+                        int doTuoi=Integer.parseInt(phan[7].trim());
+                        String nhaSXDoChoi=phan[8].trim();
                         DoChoi themDoChoi = new DoChoi(ma, ten, gianhap, soLuong, nhaSXDoChoi, doTuoi);                      
                         dsPN[vtPn].them(themDoChoi);
+                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSXDoChoi);
                         break;
                     case "Dụng cụ học tập":
-                        String loaiDungCu=phan[6].trim();
-                        String nhaSXDungCu=phan[7].trim();
+                        String loaiDungCu=phan[7].trim();
+                        String nhaSXDungCu=phan[8].trim();
                         DungCuHocTap themDungCu = new DungCuHocTap(ma, ten, gianhap, soLuong, nhaSXDungCu, loaiDungCu);
                         dsPN[vtPn].them(themDungCu);
+                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSXDungCu);
                         break;
                     default:
-                        String nhaSX = phan[6].trim();
+                        String nhaSX = phan[7].trim();
                         Khac themKhac = new Khac(ma, ten, gianhap, soLuong, nhaSX);
                         dsPN[vtPn].them(themKhac);
+                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSX);
                         break;
                 }
+                System.out.println("Đã nhập thành công phiếu: "+dsPN[vtPn].getMa());
             }
         }catch(IOException e){
             System.out.println("Lỗi đọc file "+e);
