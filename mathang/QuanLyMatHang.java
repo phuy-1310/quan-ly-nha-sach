@@ -1,6 +1,4 @@
 package mathang;
-
-
 import kho.*;
 import java.util.Scanner;
 
