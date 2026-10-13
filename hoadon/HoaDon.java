@@ -1,12 +1,13 @@
 package hoadon;
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import khachhang.KhachHang;
+import mathang.MatHang;
 import nhanvien.NhanVienBanHang;
 import thanhtoan.IThanhToan;
 import kho.Kho;
-import kho.HangTonKho;
+//import kho.HangTonKho;
 import tienich.TienIch;
 
 public class HoaDon {
@@ -103,26 +104,38 @@ public class HoaDon {
             System.out.println("Hóa đơn này đã được thanh toán!");
             return false;
         }
+
         if (hinhThucThanhToan == null) {
             System.out.println("Chưa chọn hình thức thanh toán!");
             return false;
         }
+
         if (soLuongChiTiet == 0) {
             System.out.println("Hóa đơn chưa có mặt hàng!");
             return false;
         }
 
-        // TODO: kiểm tra kho đủ hàng cho TẤT CẢ các dòng TRƯỚC khi thu tiền
-        //       (tùy class Kho của bạn có hàm kiểm tra tồn hay không)
-
+        for (int i = 0; i < soLuongChiTiet; i++) {
+            ChiTietHoaDon ct = chiTiet[i];
+            MatHang mh = ct.getMathang();
+            if(mh.getSoLuong() < ct.getsoLuong()){
+                System.out.println("Lỗi: Mặt hàng '" + mh.getTen() + "' chỉ còn "
+                                    + mh.getSoLuong() + " cái trên kệ hàng, không đủ để bán ");
+                return false;// Dừng thanh toán vì không đủ hàng để bán
+            }
+        }
+        // Tiền hành thu tiền
         double tongTien = tinhThanhTien();
         boolean ketQua = hinhThucThanhToan.xuLyThanhToan(tongTien);
-        if (ketQua) {
-            for (int i = 0; i < soLuongChiTiet; i++) {
+        if(ketQua){
+            for(int i=0; i<soLuongChiTiet; i++){
                 ChiTietHoaDon ct = chiTiet[i];
-                kho.xuatKho(ct.getMathang().getMa(), ct.getsoLuong());
+                MatHang mh = ct.getMathang();
+                //trừ trực tiếp số lượng mặt hàng đang có
+                mh.setSoLuong(mh.getSoLuong()-ct.getsoLuong());
             }
             daThanhToan = true;
+            System.out.println("Thanh toán thành công. Đã cập nhật lại số lượng trên kệ hàng ");
         }
         return ketQua;
     }
@@ -152,6 +165,9 @@ public class HoaDon {
     }
 
     // thiếu nhanvienbanhang
+    public NhanVienBanHang getNhanVienLap(){
+        return nhanVienLap;
+    }
     public String getMaHD() {
         return maHD;
     }
