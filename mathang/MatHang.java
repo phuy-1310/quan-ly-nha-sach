@@ -11,6 +11,13 @@ public abstract class MatHang implements IGetMa {
     private double loinhuan;
     private double thue;
 
+    public double getLoiNhuan(){
+        return loinhuan;
+    }
+    public double getThue(){
+        return thue;
+    }
+
     // constructor
 
     public MatHang() {
@@ -88,4 +95,5 @@ public abstract class MatHang implements IGetMa {
     public String toString(){
         return getDanhMuc()+";"+getMa()+";"+getTen()+";"+getGiaNhap()+";"+getSoLuong();
     }
+
 }
