@@ -6,15 +6,7 @@ import nhanvien.*;
 import phieunhap.*;
 import tienich.TienIch;
  
-/**
- * Chương trình chính để chạy thử toàn bộ hệ thống quản lý nhà sách.
- * Các module dùng chung 1 bộ dữ liệu: Kho, DanhSachMatHang, DanhSachKhachHang...
- *
- * Biên dịch (tại thư mục gốc của project):
- *   javac -encoding UTF-8 -d out $(find . -name "*.java")
- * Chạy (chạy ở thư mục gốc để đọc được file kho/kho_input.txt...):
- *   java -cp out Main
- */
+
 public class Main {
  
     // ====== Dữ liệu dùng chung ======
