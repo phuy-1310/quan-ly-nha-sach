@@ -1,15 +1,8 @@
 package phieunhap;
 
 import interfaces.IQuanLy;
-import mathang.DoChoi;
-import mathang.DungCuHocTap;
-import mathang.Khac;
-import mathang.Sach;
-import mathang.SachGiaoKhoa;
-import mathang.TieuThuyet;
-import mathang.TrangTri;
-import mathang.Truyen;
-import mathang.Vo;
+import mathang.*;
+import nhacungcap.NhaCungCap;
 import phieunhap.PhieuNhap.TrangThaiPN;
 
 import java.io.BufferedReader;
@@ -53,7 +46,9 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
         for(int i=0;i<soLuongPN;i++){
             PhieuNhap pn = dsPN[i];
             String ngay = TienIch.ngaytoString(pn.getChiTiet().getNgayNhap());
-            System.out.printf("%-15s %-15s %-25s\n", pn.getMa(), ngay, pn.getChiTiet().getNhaCungCap());
+            NhaCungCap ncc = pn.getChiTiet().getNhaCungCap();
+            String tenNCC = ncc == null ? "" : ncc.getTenNCC();
+            System.out.printf("%-15s %-15s %-25s\n", pn.getMa(), ngay, tenNCC);
             System.out.println("Thông tin hàng nhập: ");
             pn.xuat();
         }
@@ -75,6 +70,7 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
         soLuongPN++;
         System.out.println("Thêm thành công phiếu: "+pn.getMa());
     }
+
     @Override 
     public void sua(){
         if(soLuongPN==0){
@@ -89,7 +85,7 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
         }
         System.out.println("=======MENU SỬA======");
         System.out.println("1. Sửa thông tin mặt hàng nhập ghi trên phiếu");
-        System.out.println("2. Sửa thông tin phiếu nhập(mã phiếu nhập, ngày nhập, ncc,...");
+        System.out.println("2. Sửa thông tin phiếu nhập(mã phiếu nhập, ngày nhập)");
         System.out.println("3. Sửa trạng thái phiếu nhập");
         System.out.println("4. Thoát");
         int n = TienIch.nhapSoNguyenDuong("Nhập lựa chọn của bạn: ");
@@ -102,7 +98,6 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
                 case 2:
                     dsPN[vitri].setMaPN(TienIch.nhapMa(dsPN, soLuongPN, "Nhập mã phiếu nhập mới: "));
                     dsPN[vitri].getChiTiet().setNgayNhap(TienIch.nhapNgay("Nhập ngày nhập mới: "));
-                    dsPN[vitri].getChiTiet().setNhaCC("Nhập nhà cung cấp mới: ");
                     break;
                 case 3:
                     System.out.println("Chọn trạng thái mới của phiếu: ");
@@ -177,12 +172,14 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
                 double gianhap=Double.parseDouble(phan[5].trim());
                 int soLuong=Integer.parseInt(phan[6].trim());
 
+                NhaCungCap ncc = new NhaCungCap();
+
                 int vtPn = TienIch.timKiemViTri(dsPN, soLuongPN, maPn);
                 if(vtPn==-1){
                     vtPn=soLuongPN;
                     soLuongPN++;
                     dsPN[vtPn]=new PhieuNhap();
-                    ChiTietPhieuNhap ct = new ChiTietPhieuNhap(ngay, "trống");
+                    ChiTietPhieuNhap ct = new ChiTietPhieuNhap(ngay, ncc);
                     dsPN[vtPn].setChiTiet(ct);
                     dsPN[vtPn].setMaPN(maPn);
                     TrangThaiPN tt = TrangThaiPN.valueOf(phan[phan.length-1].trim());
@@ -200,7 +197,7 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
                         String theLoaiSach=phan[9].trim();
                         Sach themSach = new Sach(ma, ten, gianhap, soLuong ,tacGiaSach, nhaXuatBanSach, theLoaiSach);
                         dsPN[vtPn].them(themSach);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBanSach);
+                        dsPN[vtPn].getChiTiet().setNhaCC(taoNhaCungCap(nhaXuatBanSach));
                         break;
                     case "Tiểu thuyết":
                         String tacGiaTieuThuyet=phan[7].trim();
@@ -208,14 +205,14 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
                         String theLoaiTieuThuyet=phan[9].trim();
                         TieuThuyet themTieuThuyet = new TieuThuyet(ma, ten, gianhap, soLuong ,tacGiaTieuThuyet, nhaXuatBanTieuThuyet, theLoaiTieuThuyet);
                         dsPN[vtPn].them(themTieuThuyet);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBanTieuThuyet);
+                        dsPN[vtPn].getChiTiet().setNhaCC(taoNhaCungCap(nhaXuatBanTieuThuyet));
                         break;
                     case "Sách giáo khoa":
                         String monHoc = phan[7].trim();
                         String nhaXuatBan= phan[8].trim();
                         SachGiaoKhoa themSGK = new SachGiaoKhoa(ma, ten, gianhap, soLuong, monHoc, nhaXuatBan);
                         dsPN[vtPn].them(themSGK);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBan);
+                        dsPN[vtPn].getChiTiet().setNhaCC(taoNhaCungCap(nhaXuatBan));
                         break;
                     case "Truyện":
                         String tacGiaTruyen=phan[7].trim();
@@ -223,40 +220,40 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
                         String theLoaiTruyen=phan[9].trim(); 
                         Truyen themTruyen = new Truyen(ma, ten, gianhap, soLuong ,tacGiaTruyen, nhaXuatBanTruyen, theLoaiTruyen);
                         dsPN[vtPn].them(themTruyen);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBanTruyen);
+                        dsPN[vtPn].getChiTiet().setNhaCC(taoNhaCungCap(nhaXuatBanTruyen));
                         break;   
                     case "Trang trí":
                         String nhaSXTrangTri=phan[7].trim();
                         TrangTri themTrangTri = new TrangTri(ma, ten, gianhap, soLuong, nhaSXTrangTri);                    
                         dsPN[vtPn].them(themTrangTri);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSXTrangTri);
+                        dsPN[vtPn].getChiTiet().setNhaCC(taoNhaCungCap(nhaSXTrangTri));
                         break;
                     case "Vở":
                         int soTrang=Integer.parseInt(phan[7].trim());
                         String nhaSXVo=phan[8].trim();
                         Vo themVo = new Vo(ma, ten, gianhap, soLuong, soTrang, nhaSXVo);
                         dsPN[vtPn].them(themVo);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSXVo);
+                        dsPN[vtPn].getChiTiet().setNhaCC(taoNhaCungCap(nhaSXVo));
                         break;
                     case "Đồ chơi":
                         int doTuoi=Integer.parseInt(phan[7].trim());
                         String nhaSXDoChoi=phan[8].trim();
                         DoChoi themDoChoi = new DoChoi(ma, ten, gianhap, soLuong, nhaSXDoChoi, doTuoi);                      
                         dsPN[vtPn].them(themDoChoi);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSXDoChoi);
+                        dsPN[vtPn].getChiTiet().setNhaCC(taoNhaCungCap(nhaSXDoChoi));
                         break;
                     case "Dụng cụ học tập":
                         String loaiDungCu=phan[7].trim();
                         String nhaSXDungCu=phan[8].trim();
                         DungCuHocTap themDungCu = new DungCuHocTap(ma, ten, gianhap, soLuong, nhaSXDungCu, loaiDungCu);
                         dsPN[vtPn].them(themDungCu);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSXDungCu);
+                        dsPN[vtPn].getChiTiet().setNhaCC(taoNhaCungCap(nhaSXDungCu));
                         break;
                     default:
                         String nhaSX = phan[7].trim();
                         Khac themKhac = new Khac(ma, ten, gianhap, soLuong, nhaSX);
                         dsPN[vtPn].them(themKhac);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSX);
+                        dsPN[vtPn].getChiTiet().setNhaCC(taoNhaCungCap(nhaSX));
                         break;
                 }
                 System.out.println("Đã nhập thành công phiếu: "+dsPN[vtPn].getMa());
@@ -264,6 +261,10 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
         }catch(IOException e){
             System.out.println("Lỗi đọc file "+e);
         }  
+    }
+
+    private NhaCungCap taoNhaCungCap(String tenNCC) {
+        return new NhaCungCap("", tenNCC, "", "", "");
     }
 
     public void nhapKho(Kho kho){

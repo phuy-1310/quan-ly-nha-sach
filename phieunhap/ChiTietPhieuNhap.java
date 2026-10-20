@@ -2,18 +2,20 @@ package phieunhap;
 
 import java.time.LocalDate;
 
+import nhacungcap.NhaCungCap;
+
 
 public class ChiTietPhieuNhap {
     private LocalDate ngayNhap;
-    private String nhaCungCap;
+    private NhaCungCap nhacc;
 
 //constructor
     public ChiTietPhieuNhap(){
         ngayNhap =  LocalDate.now();
-        nhaCungCap = "Trống";
+        nhacc = new NhaCungCap();
     }
 
-    public ChiTietPhieuNhap(LocalDate ngayNhap, String ncc){
+    public ChiTietPhieuNhap(LocalDate ngayNhap, NhaCungCap ncc){
         this.ngayNhap = ngayNhap;
         setNhaCC(ncc);
     }
@@ -23,16 +25,16 @@ public class ChiTietPhieuNhap {
         return ngayNhap;
     }
     
-    public String getNhaCungCap(){
-        return nhaCungCap;
+    public NhaCungCap getNhaCungCap(){
+        return nhacc;
     }
 //setter
     public void setNgayNhap(LocalDate ngayNhap){
         this.ngayNhap=ngayNhap;
     }
 
-    public void setNhaCC(String ncc){
-        this.nhaCungCap=ncc;
+    public void setNhaCC(NhaCungCap ncc){
+        this.nhacc=ncc;
     }
 }
 

@@ -1,8 +1,8 @@
 package phieunhap;
 
-import java.time.LocalDate;
 import interfaces.*;
 import mathang.*;
+import nhanvien.NhanVienNhapKho;
 import tienich.TienIch;
 
 
@@ -11,6 +11,7 @@ public class PhieuNhap implements IGetMa, IQuanLy{
     private MatHang[] dsMH;
     private TrangThaiPN trangThai;
     private ChiTietPhieuNhap chiTiet;
+    private NhanVienNhapKho nv;
     private int soLuongNhap;    
     
     public enum TrangThaiPN{
@@ -24,14 +25,16 @@ public class PhieuNhap implements IGetMa, IQuanLy{
         maPN="trống";
         dsMH = new MatHang[1000];
         trangThai=TrangThaiPN.CHO_DUYET;
-        chiTiet=new ChiTietPhieuNhap(LocalDate.now(),"trống");
+        chiTiet=new ChiTietPhieuNhap();
+        nv=new NhanVienNhapKho();
         soLuongNhap=0;
     }
-    public PhieuNhap(String ma, MatHang[] mh, TrangThaiPN tt, ChiTietPhieuNhap ct, int sl){
+    public PhieuNhap(String ma, MatHang[] mh, TrangThaiPN tt, ChiTietPhieuNhap ct, NhanVienNhapKho nv, int sl){
         maPN=ma;
         this.dsMH=mh;
         trangThai=tt;
         chiTiet=ct;
+        this.nv=nv;
         soLuongNhap=sl;
     }
 
@@ -50,6 +53,8 @@ public class PhieuNhap implements IGetMa, IQuanLy{
     public MatHang[] getDSMH(){
         return dsMH;
     }
+
+    public NhanVienNhapKho getNVNhapKho(){return nv;}
 
     public int getTongSlNhap() {
         int sum=0;
