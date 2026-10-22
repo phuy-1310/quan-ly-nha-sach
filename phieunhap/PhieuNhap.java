@@ -1,8 +1,8 @@
 package phieunhap;
 
+import java.time.LocalDate;
 import interfaces.*;
 import mathang.*;
-import nhanvien.NhanVienNhapKho;
 import tienich.TienIch;
 
 
@@ -11,7 +11,6 @@ public class PhieuNhap implements IGetMa, IQuanLy{
     private MatHang[] dsMH;
     private TrangThaiPN trangThai;
     private ChiTietPhieuNhap chiTiet;
-    private NhanVienNhapKho nv;
     private int soLuongNhap;    
     
     public enum TrangThaiPN{
@@ -25,16 +24,14 @@ public class PhieuNhap implements IGetMa, IQuanLy{
         maPN="trống";
         dsMH = new MatHang[1000];
         trangThai=TrangThaiPN.CHO_DUYET;
-        chiTiet=new ChiTietPhieuNhap();
-        nv=new NhanVienNhapKho();
+        chiTiet=new ChiTietPhieuNhap(LocalDate.now(),"trống");
         soLuongNhap=0;
     }
-    public PhieuNhap(String ma, MatHang[] mh, TrangThaiPN tt, ChiTietPhieuNhap ct, NhanVienNhapKho nv, int sl){
+    public PhieuNhap(String ma, MatHang[] mh, TrangThaiPN tt, ChiTietPhieuNhap ct, int sl){
         maPN=ma;
         this.dsMH=mh;
         trangThai=tt;
         chiTiet=ct;
-        this.nv=nv;
         soLuongNhap=sl;
     }
 
@@ -54,8 +51,6 @@ public class PhieuNhap implements IGetMa, IQuanLy{
         return dsMH;
     }
 
-    public NhanVienNhapKho getNVNhapKho(){return nv;}
-
     public int getTongSlNhap() {
         int sum=0;
         for(int i=0;i<soLuongNhap;i++){
@@ -74,20 +69,18 @@ public class PhieuNhap implements IGetMa, IQuanLy{
 
 
     public MatHang nhapMH(){
-        System.out.println("1. Sách 2. SGK 3. Tiểu thuyết  4. Vở  5. Truyện");
-        System.out.println("6. Dụng cụ học tập  7. Trang trí  8. Đồ chơi  9. Khác");
+        System.out.println("1. Sách  2. SGK  3. Tiểu thuyết  4. Truyện");
+        System.out.println("5. Văn phòng phẩm  6. Báo tạp chí  7. Sản phẩm khác");
         int loai = TienIch.nhapSoNguyenDuong("Nhập loại mặt hàng ghi vào phiếu nhập: ");
         MatHang mhMoi;
         switch(loai){
             case 1: mhMoi=new Sach(); break;
             case 2: mhMoi = new SachGiaoKhoa(); break;
             case 3: mhMoi = new TieuThuyet(); break;
-            case 4: mhMoi = new Vo(); break;
-            case 5: mhMoi = new Truyen(); break;
-            case 6: mhMoi = new DungCuHocTap(); break;
-            case 7: mhMoi = new TrangTri(); break;
-            case 8: mhMoi = new DoChoi(); break;
-            case 9: mhMoi = new Khac(); break;
+            case 4: mhMoi = new Truyen(); break;
+            case 5: mhMoi = new VanPhongPham(); break;
+            case 6: mhMoi = new BaoTapChi(); break;
+            case 7: mhMoi = new SPKhac(); break;
             default: System.out.println("Chọn kh hợp lệ"); return null;
         }
         mhMoi.nhap();
