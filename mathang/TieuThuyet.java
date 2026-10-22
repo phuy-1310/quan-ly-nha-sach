@@ -2,37 +2,21 @@ package mathang;
 
 import tienich.*;
 
-public class TieuThuyet extends MatHang{
+public class TieuThuyet extends Sach {
     private final double thue = 20;
     private final double loinhuan = 20;
-    private String tacGia;
-    private String nhaXuatBan;
-    private String theloai;
 
     public TieuThuyet() {
         super();
-        this.tacGia = "";
-        this.nhaXuatBan = "";
-        this.theloai = "";
     }
 
     public TieuThuyet(String ma, String ten, double giaNhap, int soLuong, String tacGia, String nhaXuatBan, String theloai) {
-        super(ma, ten, giaNhap, soLuong);
-        this.tacGia = tacGia;
-        this.nhaXuatBan = nhaXuatBan;
-        this.theloai = theloai;
+        super(ma, ten, giaNhap, soLuong, tacGia, nhaXuatBan, theloai);
     }
 
-    public String getTheloai(){return theloai; }
-    public void setTheloai(String theloai){this.theloai = theloai;}
-
-    public String getTacGia() { return tacGia; }
-    public void setTacGia(String tacGia) { this.tacGia = tacGia; }
-
-    public String getNhaXuatBan() { return nhaXuatBan; }
-    public void setNhaXuatBan(String nhaXuatBan) { this.nhaXuatBan = nhaXuatBan; }
-
+    @Override
     public double getThue() { return thue; }
+    @Override
     public double getLoinhuan() { return loinhuan; }
 
     @Override
@@ -42,11 +26,11 @@ public class TieuThuyet extends MatHang{
 
         setTen(TienIch.nhapChuoi("Nhập tên: "));
 
-        theloai = TienIch.nhapChuoi("Nhập thể loại: ");
+        setTheloai(TienIch.nhapChuoi("Nhập thể loại: "));
 
-        tacGia = TienIch.nhapChuoi("Nhập tác giả: ");
+        setTacGia(TienIch.nhapChuoi("Nhập tác giả: "));
 
-        nhaXuatBan = TienIch.nhapChuoi("Nhà xuất bản: ");
+        setNhaXuatBan(TienIch.nhapChuoi("Nhà xuất bản: "));
 
         setGiaNhap(TienIch.nhapGiaTien("Nhập giá nhập: "));
 
@@ -55,23 +39,23 @@ public class TieuThuyet extends MatHang{
     }
 
     @Override
-    public double tinhGiaBan() {
-        return getGiaNhap() * (1 + loinhuan / 100) * (1 + thue / 100);
-    }
-
-    @Override
     public void xuat() {
         System.out.println("Mã: " + getMa());
 
         System.out.println("Tên: " + getTen());
 
-        System.out.println("Tác giả: " + tacGia);
+        System.out.println("Tác giả: " + getTacGia());
 
-        System.out.println("Nhà xuất bản: " + nhaXuatBan);
+        System.out.println("Nhà xuất bản: " + getNhaXuatBan());
 
         System.out.println("Số lượng: " + getSoLuong());
 
         System.out.println("Giá bán: " + tinhGiaBan());
+    }
+
+    @Override
+    public double tinhGiaBan() {
+        return getGiaNhap() * (1 + loinhuan / 100) * (1 + thue / 100);
     }
 
     @Override 
@@ -79,8 +63,5 @@ public class TieuThuyet extends MatHang{
         return "Tiểu thuyết";
     }
 
-    @Override 
-    public String toString(){
-        return super.toString()+";"+getTacGia()+";"+getNhaXuatBan()+";"+getTheloai();
-    }
+    // toString kế thừa từ Sach: danhMuc;ma;ten;giaNhap;soLuong;tacGia;nhaXuatBan;theloai
 }

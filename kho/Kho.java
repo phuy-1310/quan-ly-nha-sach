@@ -264,40 +264,25 @@ public class Kho implements IFileIO, IQuanLy  {
                                 System.out.println("Thêm thành công Truyện "+ ten);
                             }     
                             break;   
-                        case "Trang trí":
-                            String nhaSXTrangTri=phan[5].trim();
-                            TrangTri themTrangTri = new TrangTri(ma, ten, gianhap, soLuong, nhaSXTrangTri);
-                            if(tangTonKho(themTrangTri, soLuong)){
-                                System.out.println("Thêm thành công Trang trí " + ten);
-                            }                      
-                            break;
-                        case "Vở":
-                            int soTrang=Integer.parseInt(phan[5].trim());
-                            String nhaSXVo=phan[6].trim();
-                            Vo themVo = new Vo(ma, ten, gianhap, soLuong, soTrang, nhaSXVo);
-                            if(tangTonKho(themVo, soLuong)){
-                                System.out.println("Thêm thành công Vở "+ ten);
+                        case "Văn phòng phẩm":
+                            String loaiVPP=phan[5].trim();
+                            String nhaSXVPP=phan[6].trim();
+                            VanPhongPham themVPP = new VanPhongPham(ma, ten, gianhap, soLuong, nhaSXVPP, loaiVPP);
+                            if(tangTonKho(themVPP, soLuong)){
+                                System.out.println("Thêm thành công Văn phòng phẩm "+ ten);
                             }
                             break;
-                        case "Đồ chơi":
-                            int doTuoi=Integer.parseInt(phan[5].trim());
-                            String nhaSXDoChoi=phan[6].trim();
-                            DoChoi themDoChoi = new DoChoi(ma, ten, gianhap, soLuong, nhaSXDoChoi, doTuoi);
-                            if(tangTonKho(themDoChoi, soLuong)){
-                                System.out.println("Thêm thành công Đồ chơi " + ten);
-                            }
-                            break;
-                        case "Dụng cụ học tập":
-                            String loaiDungCu=phan[5].trim();
-                            String nhaSXDungCu=phan[6].trim();
-                            DungCuHocTap themDungCu = new DungCuHocTap(ma, ten, gianhap, soLuong, nhaSXDungCu, loaiDungCu);
-                            if(tangTonKho(themDungCu, soLuong)){
-                                System.out.println("Thêm thành công Dụng cụ học tập "+ten);
+                        case "Báo tạp chí":
+                            String theLoaiBao=phan[5].trim();
+                            String nhaXuatBanBao=phan[6].trim();
+                            BaoTapChi themBao = new BaoTapChi(ma, ten, gianhap, soLuong, nhaXuatBanBao, theLoaiBao);
+                            if(tangTonKho(themBao, soLuong)){
+                                System.out.println("Thêm thành công Báo tạp chí "+ ten);
                             }
                             break;
                         default:
                             String nhaSX = phan[5].trim();
-                            Khac themKhac = new Khac(ma, ten, gianhap, soLuong, nhaSX);
+                            SPKhac themKhac = new SPKhac(ma, ten, gianhap, soLuong, nhaSX);
                             if(tangTonKho(themKhac, soLuong)){
                                 System.out.println("Thêm thành công Khác "+ten);
                             }

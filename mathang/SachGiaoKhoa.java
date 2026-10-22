@@ -2,31 +2,27 @@ package mathang;
 
 import tienich.*;
 
-public class SachGiaoKhoa extends MatHang{
+public class SachGiaoKhoa extends Sach {
     private final double thue = 0;
     private final double loinhuan = 0;
     private String monhoc;
-    private String nhaXuatBan;
 
     public SachGiaoKhoa() {
         super();
         this.monhoc = "";
-        this.nhaXuatBan = "";
     }
 
     public SachGiaoKhoa(String ma, String ten, double giaNhap, int soLuong, String monhoc, String nhaXuatBan) {
-        super(ma, ten, giaNhap, soLuong);
+        super(ma, ten, giaNhap, soLuong, "", nhaXuatBan, "");
         this.monhoc = monhoc;
-        this.nhaXuatBan = nhaXuatBan;
     }
 
     public String getMonhoc() { return monhoc; }
     public void setMonhoc(String monhoc) { this.monhoc = monhoc; }
 
-    public String getNhaXuatBan() { return nhaXuatBan; }
-    public void setNhaXuatBan(String nhaXuatBan) { this.nhaXuatBan = nhaXuatBan; }
-
+    @Override
     public double getThue() { return thue; }
+    @Override
     public double getLoinhuan() { return loinhuan; }
 
     @Override
@@ -38,7 +34,7 @@ public class SachGiaoKhoa extends MatHang{
 
         monhoc = TienIch.nhapChuoi("Nhập môn học: ");
 
-        nhaXuatBan = TienIch.nhapChuoi("Nhà xuất bản: ");
+        setNhaXuatBan(TienIch.nhapChuoi("Nhà xuất bản: "));
 
         setGiaNhap(TienIch.nhapGiaTien("Giá nhập hàng: "));
 
@@ -59,7 +55,7 @@ public class SachGiaoKhoa extends MatHang{
 
         System.out.println("Tên môn học: " + monhoc);
 
-        System.out.println("Nhà xuất bản: " + nhaXuatBan);
+        System.out.println("Nhà xuất bản: " + getNhaXuatBan());
 
         System.out.println("Số lượng: " + getSoLuong());
 
@@ -71,8 +67,10 @@ public class SachGiaoKhoa extends MatHang{
         return "Sách giáo khoa";
     }
 
+    // Giữ nguyên định dạng ghi file cũ: danhMuc;ma;ten;giaNhap;soLuong;monhoc;nhaXuatBan
     @Override 
     public String toString(){
-        return super.toString()+";"+getMonhoc()+";"+getNhaXuatBan();
+        return getDanhMuc()+";"+getMa()+";"+getTen()+";"+getGiaNhap()+";"+getSoLuong()
+                +";"+getMonhoc()+";"+getNhaXuatBan();
     }
 }
