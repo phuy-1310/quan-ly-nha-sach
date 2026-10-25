@@ -142,45 +142,56 @@ public class HoaDon {
         System.out.println("Mã hóa đơn: " + maHD);
         System.out.println("Ngày lập: " + TienIch.ngaytoString(ngayLap));
         System.out.println("Khách hàng: " + khachHang.getTenKH());
-        System.out.println("Nhân viên lập: ");
+        System.out.println("Nhân viên lập: " + (nhanVienLap == null ? "(không rõ)" : nhanVienLap.getHoTen()));
+        System.out.println("Trạng thái: " + (daThanhToan ? "Đã thanh toán" : "Chưa thanh toán"));
         System.out.println("--- Chi tiết ---");
         for (int i = 0; i < soLuongChiTiet; i++) {
             ChiTietHoaDon ct = chiTiet[i];
-            System.out.println((i + 1) + ". " + ct.getMathang().getTen()
-                    + " | SL: " + ct.getsoLuong()
-                    + " | Đơn giá: " + ct.getDonGia()
-                    + " | Thành tiền: " + ct.thanhTien());
+            System.out.printf("%d. %s | SL: %d | Đơn giá: %.0f | Thành tiền: %.0f%n", i + 1,
+                    ct.getMathang().getTen(), ct.getsoLuong(), ct.getDonGia(), ct.thanhTien());
         }
-        System.out.println("Tổng cộng " + tinhThanhTien());
+        System.out.printf("Tổng cộng %.0f%n", tinhThanhTien());
+    }
+
+    // Chỉ dùng khi nạp hóa đơn đã thanh toán từ file (không trừ hàng lần nữa)
+    // Phải gọi SAU khi đã thêm đủ chi tiết, vì thêm chi tiết bị chặn khi đã thanh toán
+    void danhDauDaThanhToan() {
+        this.daThanhToan = true;
     }
 
     //get && set
     public IThanhToan getHinhThucThanhToan() {
         return hinhThucThanhToan;
     }
+
     public void setHinhThucThanhToan(IThanhToan httt) {
         this.hinhThucThanhToan = httt;
     }
 
-    // thiếu nhanvienbanhang
     public NhanVienBanHang getNhanVienLap(){
         return nhanVienLap;
     }
+
     public String getMaHD() {
         return maHD;
     }
+
     public LocalDate getNgayLap() {
         return ngayLap;
     }
+
     public KhachHang getKhachHang() {
         return khachHang;
     }
+
     public int getSoLuongChiTiet() {
         return soLuongChiTiet;
     }
+
     public ChiTietHoaDon[] getChiTiet() {
         return chiTiet;
     }
+
     public boolean isDaThanhToan() {
         return daThanhToan;
     }

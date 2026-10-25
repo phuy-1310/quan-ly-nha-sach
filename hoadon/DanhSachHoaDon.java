@@ -126,7 +126,7 @@ public class DanhSachHoaDon implements IQuanLy, IFileIO{
             System.out.println("Hóa đơn đã thanh toán, không thể xóa!");
             return;
         }
-        for (int i = vt; i < soLuong; i++) {
+        for (int i = vt; i < soLuong -1; i++) {
             ds[i] = ds[i + 1];
         }
         ds[soLuong - 1] = null;
@@ -174,24 +174,39 @@ public class DanhSachHoaDon implements IQuanLy, IFileIO{
         return hd;
     }
     //Mặt hàng đã có trong hóa đơn thì cộng dồn số lượng, chưa có thì thêm dòng mới
+    //Không cho tổng số lượng vượt quá số lượng còn trên kệ
     private void themVaoHoaDon(HoaDon hd, MatHang mh, int sl){
         for(int i=0; i<hd.getSoLuongChiTiet(); i++){
             ChiTietHoaDon ct  = hd.getChiTiet()[i];
             if(ct.getMathang().getMa().equalsIgnoreCase(mh.getMa())){
+                if(ct.getsoLuong() + sl > mh.getSoLuong()){
+                    System.out.println("Không đủ hàng! Trên kệ còn " + mh.getSoLuong()
+                            + ", hóa đơn đã có " + ct.getsoLuong());
+                    return;
+                }
                 hd.suaSoLuongChiTiet(i,ct.getsoLuong()+sl);
                 return;
             }
+        }
+        if(sl > mh.getSoLuong()){
+            System.out.println("Không đủ hàng! Trên kệ chỉ còn " + mh.getSoLuong());
+            return;
         }
         hd.themChiTiet(new ChiTietHoaDon(sl,mh));
     }
 
     // Ghi dữ liệu hóa đơn ra file
+    // Dòng đầu mỗi hóa đơn: maHD;ngayLap;maKH;maNV;tenNV;daThanhToan(1/0)
     @Override
     public void ghiFile(String duongDan) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(duongDan))) {
             for (int i = 0; i < soLuong; i++) {
                 HoaDon hd = ds[i];
-                pw.println(hd.getMaHD() + ";" + hd.getNgayLap() + ";" + hd.getKhachHang().getMaKH());
+                NhanVienBanHang nv = hd.getNhanVienLap();
+                String maNV = (nv == null) ? "" : nv.getMaNguoi();
+                String tenNV = (nv == null) ? "" : nv.getHoTen();
+                pw.println(hd.getMaHD() + ";" + hd.getNgayLap() + ";" + hd.getKhachHang().getMaKH()
+                        + ";" + maNV + ";" + tenNV + ";" + (hd.isDaThanhToan() ? 1 : 0));
                 pw.println(hd.getSoLuongChiTiet());
                 for (int j = 0; j < hd.getSoLuongChiTiet(); j++) {
                     ChiTietHoaDon ct = hd.getChiTiet()[j];
@@ -211,6 +226,7 @@ public class DanhSachHoaDon implements IQuanLy, IFileIO{
     }
 
     // Hàm thực sự làm nhiệm vụ đọc file (Nạp chồng phương thức)
+    // Vẫn đọc được file cũ chỉ có 3 trường ở dòng đầu (khi đó coi là chưa thanh toán, không có nhân viên)
     public void docFile(String duongDan, DanhSachKhachHang dskh, DanhSachMatHang dsmh) {
         try (BufferedReader br = new BufferedReader(new FileReader(duongDan))) {
             String line;
@@ -225,22 +241,39 @@ public class DanhSachHoaDon implements IQuanLy, IFileIO{
                 LocalDate ngayLap = LocalDate.parse(info[1]);
                 KhachHang kh = dskh.timkiem_khachhang(info[2]);
 
+                // Luôn đọc hết các dòng chi tiết của hóa đơn này trước, để dù bỏ qua cũng không lệch dòng
+                int soLuongCT = Integer.parseInt(br.readLine().trim());
+                String[] dongCT = new String[soLuongCT];
+                for (int j = 0; j < soLuongCT; j++) {
+                    dongCT[j] = br.readLine();
+                }
+
                 if (kh == null) {
                     System.out.println("Bỏ qua hóa đơn " + maHD + " do không tìm thấy dữ liệu khách hàng.");
                     continue;
                 }
+                if (timKiem(maHD) != null) {
+                    System.out.println("Bỏ qua hóa đơn " + maHD + " do bị trùng mã trong file.");
+                    continue;
+                }
 
-                HoaDon hd = new HoaDon(maHD, ngayLap, kh, null);
-                int soLuongCT = Integer.parseInt(br.readLine().trim());
+                // Nhân viên chưa có danh sách riêng nên chỉ khôi phục mã và tên đã lưu
+                NhanVienBanHang nv = null;
+                if (info.length > 4 && !info[3].trim().isEmpty()) {
+                    nv = new NhanVienBanHang(info[3].trim(), info[4].trim(), "", "", "", 0);
+                }
+                boolean daThanhToan = info.length > 5 && info[5].trim().equals("1");
 
+                HoaDon hd = new HoaDon(maHD, ngayLap, kh, nv);
                 for (int j = 0; j < soLuongCT; j++) {
-                    String[] ctData = br.readLine().split(";");
+                    String[] ctData = dongCT[j].split(";");
                     MatHang mh = dsmh.timKiem_hang(ctData[0]);
-                    int slMua = Integer.parseInt(ctData[1]);
+                    int slMua = Integer.parseInt(ctData[1].trim());
 
                     if (mh != null) {
-                        ChiTietHoaDon ct = new ChiTietHoaDon(slMua, mh);
-                        hd.themChiTiet(ct);
+                        // Giữ đúng đơn giá lúc bán nếu file có lưu
+                        double donGia = (ctData.length > 2) ? Double.parseDouble(ctData[2].trim()) : mh.tinhGiaBan();
+                        hd.themChiTiet(new ChiTietHoaDon(slMua, mh, donGia));
                     }
                 }
 
@@ -248,6 +281,8 @@ public class DanhSachHoaDon implements IQuanLy, IFileIO{
                     System.out.println("Bỏ qua hóa đơn " + maHD + " do toàn bộ mặt hàng không còn tồn tại.");
                     continue;
                 }
+                // Phải đánh dấu sau khi đã thêm xong chi tiết; không trừ hàng lại vì lúc thanh toán đã trừ rồi
+                if (daThanhToan) hd.danhDauDaThanhToan();
 
                 if (soLuong == ds.length) tangKichThuocHoaDon();
                 ds[soLuong++] = hd;
@@ -259,6 +294,7 @@ public class DanhSachHoaDon implements IQuanLy, IFileIO{
             System.out.println("Lỗi khi đọc file: " + e.getMessage());
         }
     }
+
 }
 
 

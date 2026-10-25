@@ -12,6 +12,12 @@ public class ChiTietHoaDon {
         this.mathang = mathang;
         this.donGia = mathang.tinhGiaBan();
     }
+
+    public ChiTietHoaDon(int soLuong, MatHang mathang, double donGia){
+        this.soLuong = soLuong;
+        this.mathang = mathang;
+        this.donGia = donGia;
+    }
     // get soLuong bán ra của từng mathang trong hóa đơn
     public int getsoLuong(){
         return this.soLuong;
