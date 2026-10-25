@@ -7,7 +7,7 @@ PN002;20-09-2025;Khác;K002;Khung ảnh gỗ;45000;15;OEM Việt Nam;DA_DUYET
 
 PN003;01-10-2025;Sách giáo khoa;SGK001;Toán 12;18000;50;Toán;Giáo Dục;CHO_DUYET
 PN003;01-10-2025;Truyện;TR001;One Piece Tập 1;22000;30;Eiichiro Oda;Kim Đồng;Phiêu lưu;CHO_DUYET
-PN003;01/10-2025;Báo tạp chí;BTC001;Tạp chí Khoa học phổ thông;30000;40;Khoa học;NXB Khoa học và Kỹ thuật;CHO_DUYET
+PN003;01-10-2025;Báo tạp chí;BTC001;Tạp chí Khoa học phổ thông;30000;40;Khoa học;NXB Khoa học và Kỹ thuật;CHO_DUYET
 
 PN004;10-10-2025;Khác;K003;Rubik 3x3;50000;25;Rubik VN;DA_HUY
 PN004;10-10-2025;Khác;K001;Bình nước học sinh;65000;12;Lock&Lock;DA_HUY
