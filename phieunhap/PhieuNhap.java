@@ -206,4 +206,7 @@ public class PhieuNhap implements IGetMa, IQuanLy{
     public void taoNCC(String tenNCC, DanhSachNCC dsncc){
         dsncc.them(tenNCC);
     }
+    public void suaNCC(DanhSachNCC dsncc){
+        dsncc.sua();
+    }
 }
