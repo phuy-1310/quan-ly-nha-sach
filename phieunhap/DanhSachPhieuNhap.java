@@ -1,13 +1,8 @@
 package phieunhap;
 
 import interfaces.IQuanLy;
-import mathang.BaoTapChi;
-import mathang.SPKhac;
-import mathang.Sach;
-import mathang.SachGiaoKhoa;
-import mathang.TieuThuyet;
-import mathang.Truyen;
-import mathang.VanPhongPham;
+import mathang.*;
+import nhacungcap.*;
 import phieunhap.PhieuNhap.TrangThaiPN;
 
 import java.io.BufferedReader;
@@ -16,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import interfaces.IFileIO;
 import tienich.*;
@@ -25,10 +19,12 @@ import kho.Kho;
 public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
     private PhieuNhap[] dsPN;
     private int soLuongPN;
+    private DanhSachNCC dsNCC;
 
     public DanhSachPhieuNhap(){
         dsPN=new PhieuNhap[1000];
         soLuongPN=0;
+        dsNCC = new DanhSachNCC();
     }
 
     @Override 
@@ -100,7 +96,7 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
                 case 2:
                     dsPN[vitri].setMaPN(TienIch.nhapMa(dsPN, soLuongPN, "Nhập mã phiếu nhập mới: "));
                     dsPN[vitri].getChiTiet().setNgayNhap(TienIch.nhapNgay("Nhập ngày nhập mới: "));
-                    dsPN[vitri].getChiTiet().setNhaCC("Nhập nhà cung cấp mới: ");
+                    dsPN[vitri].suaNCC(dsNCC);
                     break;
                 case 3:
                     System.out.println("Chọn trạng thái mới của phiếu: ");
@@ -155,101 +151,185 @@ public class DanhSachPhieuNhap implements IQuanLy, IFileIO{
         }
     }
     @Override
-    public void docFile(String duongDan){
+public void docFile(String duongDan){
+
         try(BufferedReader br = new BufferedReader(new FileReader(duongDan))){
+
             String dong;
+
             while((dong=br.readLine())!=null){
+
                 if(dong.trim().isEmpty()) continue;
+
                
+
                 String phan[]=dong.split(";");
+
+
 
                 String maPn=phan[0].trim();
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM.yyyy");
-                LocalDate ngay = LocalDate.parse(phan[1].trim(), formatter);
+
+
+                LocalDate ngay = LocalDate.parse(phan[1].trim());
+
+
 
                 String danhMuc=phan[2].trim();
+
                 String ma=phan[3].trim();
+
                 String ten=phan[4].trim();
 
+
+
                 double gianhap=Double.parseDouble(phan[5].trim());
+
                 int soLuong=Integer.parseInt(phan[6].trim());
 
+
+
                 int vtPn = TienIch.timKiemViTri(dsPN, soLuongPN, maPn);
+
                 if(vtPn==-1){
+
                     vtPn=soLuongPN;
+
                     soLuongPN++;
+
                     dsPN[vtPn]=new PhieuNhap();
-                    ChiTietPhieuNhap ct = new ChiTietPhieuNhap(ngay, "trống");
+
+                    ChiTietPhieuNhap ct = new ChiTietPhieuNhap(ngay, new NhaCungCap());
+
                     dsPN[vtPn].setChiTiet(ct);
+
                     dsPN[vtPn].setMaPN(maPn);
+
                     TrangThaiPN tt = TrangThaiPN.valueOf(phan[phan.length-1].trim());
+
                     dsPN[vtPn].setTrangThai(tt);
+
                 }
-                if(dsPN[vtPn].getTrangThai()==TrangThaiPN.DA_HUY ||
-                dsPN[vtPn].getTrangThai()==TrangThaiPN.DA_DUYET){
-                    System.out.println("Phiếu này đã duyệt hoặc hủy!");
-                    continue;
-                }
+
                 switch (danhMuc) {
+
                     case "Sách":
+
                         String tacGiaSach=phan[7].trim();
+
                         String nhaXuatBanSach=phan[8].trim();
+
                         String theLoaiSach=phan[9].trim();
+
                         Sach themSach = new Sach(ma, ten, gianhap, soLuong ,tacGiaSach, nhaXuatBanSach, theLoaiSach);
+
                         dsPN[vtPn].them(themSach);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBanSach);
+
+                        dsPN[vtPn].taoNCC(nhaXuatBanSach, dsNCC);
+
                         break;
+
                     case "Tiểu thuyết":
+
                         String tacGiaTieuThuyet=phan[7].trim();
+
                         String nhaXuatBanTieuThuyet=phan[8].trim();
+
                         String theLoaiTieuThuyet=phan[9].trim();
+
                         TieuThuyet themTieuThuyet = new TieuThuyet(ma, ten, gianhap, soLuong ,tacGiaTieuThuyet, nhaXuatBanTieuThuyet, theLoaiTieuThuyet);
+
                         dsPN[vtPn].them(themTieuThuyet);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBanTieuThuyet);
+
+                        dsPN[vtPn].taoNCC(nhaXuatBanTieuThuyet, dsNCC);
+
                         break;
+
                     case "Sách giáo khoa":
+
                         String monHoc = phan[7].trim();
+
                         String nhaXuatBan= phan[8].trim();
+
                         SachGiaoKhoa themSGK = new SachGiaoKhoa(ma, ten, gianhap, soLuong, monHoc, nhaXuatBan);
+
                         dsPN[vtPn].them(themSGK);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBan);
+
+                        dsPN[vtPn].taoNCC(nhaXuatBan, dsNCC);
+
                         break;
+
                     case "Truyện":
+
                         String tacGiaTruyen=phan[7].trim();
+
                         String nhaXuatBanTruyen=phan[8].trim();
+
                         String theLoaiTruyen=phan[9].trim(); 
+
                         Truyen themTruyen = new Truyen(ma, ten, gianhap, soLuong ,tacGiaTruyen, nhaXuatBanTruyen, theLoaiTruyen);
+
                         dsPN[vtPn].them(themTruyen);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBanTruyen);
+
+                        dsPN[vtPn].taoNCC(nhaXuatBanTruyen, dsNCC);
+
                         break;   
+
                     case "Văn phòng phẩm":
+
                         String loaiVPP=phan[7].trim();
+
                         String nhaSXVPP=phan[8].trim();
+
                         VanPhongPham themVPP = new VanPhongPham(ma, ten, gianhap, soLuong, nhaSXVPP, loaiVPP);
+
                         dsPN[vtPn].them(themVPP);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSXVPP);
+
+                        dsPN[vtPn].taoNCC(nhaSXVPP, dsNCC);
+
                         break;
+
                     case "Báo tạp chí":
+
                         String theLoaiBao=phan[7].trim();
+
                         String nhaXuatBanBao=phan[8].trim();
+
                         BaoTapChi themBao = new BaoTapChi(ma, ten, gianhap, soLuong, nhaXuatBanBao, theLoaiBao);
+
                         dsPN[vtPn].them(themBao);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaXuatBanBao);
+
+                        dsPN[vtPn].taoNCC(nhaXuatBanBao, dsNCC);
+
                         break;
+
                     default:
+
                         String nhaSX = phan[7].trim();
+
                         SPKhac themKhac = new SPKhac(ma, ten, gianhap, soLuong, nhaSX);
+
                         dsPN[vtPn].them(themKhac);
-                        dsPN[vtPn].getChiTiet().setNhaCC(nhaSX);
+
+                        dsPN[vtPn].taoNCC(nhaSX, dsNCC);
+
                         break;
+
                 }
+
                 System.out.println("Đã nhập thành công phiếu: "+dsPN[vtPn].getMa());
+
             }
+
         }catch(IOException e){
+
             System.out.println("Lỗi đọc file "+e);
+
         }  
+
     }
+
+
 
     public void nhapKho(Kho kho){
         for(int i=0;i<soLuongPN;i++){
