@@ -203,8 +203,14 @@ public class PhieuNhap implements IGetMa, IQuanLy{
         }
     }
 
-    public void taoNCC(String tenNCC, DanhSachNCC dsncc){
-        dsncc.them(tenNCC);
+    public NhaCungCap taoNCC(String tenNCC, DanhSachNCC dsncc){
+        for(int i=0;i<dsncc.getSoLuongNCC();i++)
+            if(dsncc.getDsNCC()[i].getTenNCC()==tenNCC)
+                return dsncc.getDsNCC()[i];
+        NhaCungCap ncc = new NhaCungCap();
+        ncc.setTenNCC(tenNCC);
+        dsncc.getDsNCC()[dsncc.getSoLuongNCC()]=ncc;
+        return ncc;
     }
     public void suaNCC(DanhSachNCC dsncc){
         dsncc.sua();
