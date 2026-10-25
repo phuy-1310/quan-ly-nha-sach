@@ -183,7 +183,7 @@ public class Kho implements IFileIO, IQuanLy  {
             return;
         }
         System.out.println("=====KHO ĐANG CHỨA=====");
-        System.out.printf("|%-20s|%-20s|%-15s|%-20s|%-20s|%n","Mã","Tên","Giá Nhập", "Số Lượng", "Giá Bán");
+        System.out.printf("|%-20s|%-40s|%-15s|%-20s|%-20s|%n","Mã","Tên","Giá Nhập", "Số Lượng", "Giá Bán");
         for(int i=0;i<soLuongMatHang;i++){
             dsTonKho[i].xuat();
         }
