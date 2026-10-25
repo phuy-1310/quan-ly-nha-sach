@@ -80,6 +80,31 @@ public class DanhSachNCC implements IQuanLy, IFileIO {
         System.out.println("Thêm nhà cung cấp thành công!");
     }
 
+    public void them(String maNCC) {
+        if (soLuongNCC == dsNCC.length) {
+            NhaCungCap[] mangMoi = new NhaCungCap[dsNCC.length * 2];
+
+            for (int i = 0; i < dsNCC.length; i++) {
+                mangMoi[i] = dsNCC[i];
+            }
+
+            dsNCC = mangMoi;
+        }
+        do {
+            maNCC = TienIch.nhapChuoi("Nhập mã NCC: ");
+        } while (timKiemViTri(maNCC) != -1);
+
+        String tenNCC = TienIch.nhapChuoi("Nhập tên NCC: ");
+        String diaChi = TienIch.nhapChuoi("Nhập địa chỉ: ");
+        String sdt = TienIch.nhapChuoi("Nhập số điện thoại: ");
+        String email = TienIch.nhapChuoi("Nhập email: ");
+
+        dsNCC[soLuongNCC++] =
+                new NhaCungCap(maNCC, tenNCC, diaChi, sdt, email);
+
+        System.out.println("Thêm nhà cung cấp thành công!");
+    }
+
     @Override
     public void sua() {
         if (soLuongNCC == 0) {
