@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import interfaces.IFileIO;
 import tienich.*;
@@ -169,9 +170,8 @@ public void docFile(String duongDan){
 
                 String maPn=phan[0].trim();
 
-
-
-                LocalDate ngay = LocalDate.parse(phan[1].trim());
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                LocalDate ngay = LocalDate.parse(phan[1].trim(), formatter);
 
 
 
