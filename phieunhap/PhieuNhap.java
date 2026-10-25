@@ -3,6 +3,7 @@ package phieunhap;
 import java.time.LocalDate;
 import interfaces.*;
 import mathang.*;
+import nhacungcap.DanhSachNCC;
 import nhacungcap.NhaCungCap;
 import tienich.TienIch;
 
@@ -200,5 +201,9 @@ public class PhieuNhap implements IGetMa, IQuanLy{
             System.out.println("\n--------THÔNG TIN MẶT HÀNG THỨ " +(i+1)+ "--------");
             dsMH[i].xuat();
         }
+    }
+
+    public void taoNCC(String tenNCC, DanhSachNCC dsncc){
+        dsncc.them(tenNCC);
     }
 }
