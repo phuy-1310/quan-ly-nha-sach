@@ -3,6 +3,7 @@ package phieunhap;
 import java.time.LocalDate;
 import interfaces.*;
 import mathang.*;
+import nhacungcap.NhaCungCap;
 import tienich.TienIch;
 
 
@@ -24,7 +25,7 @@ public class PhieuNhap implements IGetMa, IQuanLy{
         maPN="trống";
         dsMH = new MatHang[1000];
         trangThai=TrangThaiPN.CHO_DUYET;
-        chiTiet=new ChiTietPhieuNhap(LocalDate.now(),"trống");
+        chiTiet=new ChiTietPhieuNhap(LocalDate.now(), new NhaCungCap());
         soLuongNhap=0;
     }
     public PhieuNhap(String ma, MatHang[] mh, TrangThaiPN tt, ChiTietPhieuNhap ct, int sl){
@@ -99,18 +100,8 @@ public class PhieuNhap implements IGetMa, IQuanLy{
         dsMH[soLuongNhap]=mhMoi;
         soLuongNhap++;
     }
-    public void them(MatHang mh){
-        if(soLuongNhap==dsMH.length){
-            MatHang[] mangmoi = new MatHang[dsMH.length*2];
-            for(int i=0;i<soLuongNhap;i++){
-            mangmoi[i]=dsMH[i];
-            }
-        dsMH=mangmoi;
-        }
-        dsMH[soLuongNhap]=mh;
-        soLuongNhap++;  
-    }
 
+    
     @Override
     public void nhap(){
         int sl = TienIch.nhapSoNguyenDuong("Nhập số lượng mặt hàng ghi lên phiếu nhập: ");
@@ -119,6 +110,7 @@ public class PhieuNhap implements IGetMa, IQuanLy{
             them();
         }
     }
+
 
     @Override 
     public void xoa(){
