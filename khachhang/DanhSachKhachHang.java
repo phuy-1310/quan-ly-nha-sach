@@ -3,7 +3,7 @@ import java.io.*;
 
 import interfaces.*;
 import tienich.*;
-
+import java.nio.charset.StandardCharsets;
 public class DanhSachKhachHang implements IQuanLy,IFileIO{
     private int soLuong;
     private KhachHang[] ds;
@@ -144,7 +144,8 @@ public class DanhSachKhachHang implements IQuanLy,IFileIO{
     // Ghi dữ liệu ra file
     @Override
     public void ghiFile(String duongDan) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(duongDan))) {
+        try (PrintWriter pw = new PrintWriter(
+                new OutputStreamWriter(new FileOutputStream(duongDan), StandardCharsets.UTF_8))) {
             for (int i = 0; i < soLuong; i++) {
                 pw.println(ds[i].getMaKH() + ";" + ds[i].getTenKH() + ";" + ds[i].getSoDienThoai());
             }
@@ -153,29 +154,36 @@ public class DanhSachKhachHang implements IQuanLy,IFileIO{
             System.out.println("Lỗi khi ghi file: " + e.getMessage());
         }
     }
+
     // Đọc dữ liệu từ file
     @Override
     public void docFile(String duongDan) {
-        try (BufferedReader br = new BufferedReader(new FileReader(duongDan))) {
-            String line;
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(duongDan), StandardCharsets.UTF_8))) {
             soLuong = 0;
             ds = new KhachHang[1000];
-
+            String line;
+            boolean dongDau = true;
             while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) continue;
-                String[] data = line.split(";");
-                if (data.length == 3) {
-                    KhachHang kh = new KhachHang(data[0].trim(), data[1].trim(), data[2].trim());
-                    if (soLuong == ds.length) tangKichThuoc();
-                    ds[soLuong++] = kh;
+                if (dongDau) {
+                    if (line.startsWith("\uFEFF")) line = line.substring(1);
+                    dongDau = false;
                 }
+                if (line.trim().isEmpty()) continue;
+                String[] data = line.split(";", -1); // -1: giữ trường rỗng ở cuối để đếm đúng
+                if (data.length != 3 || data[0].trim().isEmpty() || data[1].trim().isEmpty()
+                        || data[2].trim().isEmpty() || timkiem_khachhang(data[0].trim()) != null) {
+                    System.out.println("Bỏ qua dòng không hợp lệ hoặc trùng mã: " + line);
+                    continue;
+                }
+                if (soLuong == ds.length) tangKichThuoc();
+                ds[soLuong++] = new KhachHang(data[0].trim(), data[1].trim(), data[2].trim());
             }
-            System.out.println("Đã tải dữ liệu từ file " + duongDan + " thành công!");
+            System.out.println("Đã tải " + soLuong + " khách hàng từ file " + duongDan);
         } catch (FileNotFoundException e) {
             System.out.println("Chưa tìm thấy file " + duongDan);
         } catch (IOException e) {
             System.out.println("Lỗi khi đọc file: " + e.getMessage());
         }
     }
-
 }
