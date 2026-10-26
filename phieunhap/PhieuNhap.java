@@ -214,4 +214,7 @@ public class PhieuNhap implements IGetMa, IQuanLy{
         dsncc.setSoLuongNCC(dsncc.getSoLuongNCC()+1);
         return ncc;
     }
+    public void suaNCC(DanhSachNCC dsncc){
+        dsncc.sua();
+    }
 }
