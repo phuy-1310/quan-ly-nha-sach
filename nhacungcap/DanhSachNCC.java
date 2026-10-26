@@ -241,4 +241,8 @@ public class DanhSachNCC implements IQuanLy, IFileIO {
     public int getSoLuongNCC() {
         return soLuongNCC;
     }
+
+    public void setSoLuongNCC(int sl){
+        soLuongNCC=sl;
+    }
 }
