@@ -85,6 +85,7 @@ public class Main {
             System.out.println("7. Xem hàng tồn trong kho");
             System.out.println("8. Đọc phiếu nhập từ file");
             System.out.println("9. Ghi phiếu nhập ra file");
+            System.out.println("10. Xem danh sách nhà cung cấp trong lần nhập này");
             System.out.println("0. Quay lại");
             chon = TienIch.nhapSoNguyenDuong("Chọn: ");
             switch (chon) {
@@ -97,6 +98,7 @@ public class Main {
                 case 7: kho.xuat(); break;
                 case 8: dspn.docFile(hoiFile("phieunhap/phieunhap_input.txt")); break;
                 case 9: dspn.ghiFile(hoiFile("phieunhap/phieunhap_output.txt")); break;
+                case 10: dspn.xuatDsNCC();
                 case 0: break;
                 default: System.out.println("Lựa chọn không hợp lệ!");
             }
