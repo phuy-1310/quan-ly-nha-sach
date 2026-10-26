@@ -349,4 +349,11 @@ public void docFile(String duongDan){
     public DanhSachNCC getDanhSachNCC(){
         return dsNCC;
     }
+    
+    public void suaNCC(){
+        dsNCC.sua();
+    }
+    public void xuatDsNCC(){
+        dsNCC.xuat();
+    }
 }
