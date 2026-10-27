@@ -225,8 +225,8 @@ public void docFile(String duongDan){
 
                         dsPN[vtPn].them(themSach);
 
-                        dsPN[vtPn].taoNCC(nhaXuatBanSach, dsNCC);
-
+                        NhaCungCap ncc = dsPN[vtPn].taoNCC(nhaXuatBanSach, dsNCC);
+                        dsPN[vtPn].getChiTiet().setNhaCC(ncc);
                         break;
 
                     case "Tiểu thuyết":
@@ -241,8 +241,8 @@ public void docFile(String duongDan){
 
                         dsPN[vtPn].them(themTieuThuyet);
 
-                        dsPN[vtPn].taoNCC(nhaXuatBanTieuThuyet, dsNCC);
-
+                        NhaCungCap ncc2 = dsPN[vtPn].taoNCC(nhaXuatBanTieuThuyet, dsNCC);
+                        dsPN[vtPn].getChiTiet().setNhaCC(ncc2);
                         break;
 
                     case "Sách giáo khoa":
@@ -255,7 +255,8 @@ public void docFile(String duongDan){
 
                         dsPN[vtPn].them(themSGK);
 
-                        dsPN[vtPn].taoNCC(nhaXuatBan, dsNCC);
+                        NhaCungCap ncc3 = dsPN[vtPn].taoNCC(nhaXuatBan, dsNCC);
+                        dsPN[vtPn].getChiTiet().setNhaCC(ncc3);
 
                         break;
 
@@ -271,8 +272,8 @@ public void docFile(String duongDan){
 
                         dsPN[vtPn].them(themTruyen);
 
-                        dsPN[vtPn].taoNCC(nhaXuatBanTruyen, dsNCC);
-
+                        NhaCungCap ncc4= dsPN[vtPn].taoNCC(nhaXuatBanTruyen, dsNCC);
+                        dsPN[vtPn].getChiTiet().setNhaCC(ncc4);
                         break;   
 
                     case "Văn phòng phẩm":
@@ -285,8 +286,8 @@ public void docFile(String duongDan){
 
                         dsPN[vtPn].them(themVPP);
 
-                        dsPN[vtPn].taoNCC(nhaSXVPP, dsNCC);
-
+                        NhaCungCap ncc5 =dsPN[vtPn].taoNCC(nhaSXVPP, dsNCC);
+                        dsPN[vtPn].getChiTiet().setNhaCC(ncc5);
                         break;
 
                     case "Báo tạp chí":
@@ -299,8 +300,8 @@ public void docFile(String duongDan){
 
                         dsPN[vtPn].them(themBao);
 
-                        dsPN[vtPn].taoNCC(nhaXuatBanBao, dsNCC);
-
+                        NhaCungCap ncc6= dsPN[vtPn].taoNCC(nhaXuatBanBao, dsNCC);
+                        dsPN[vtPn].getChiTiet().setNhaCC(ncc6);
                         break;
 
                     default:
@@ -311,8 +312,8 @@ public void docFile(String duongDan){
 
                         dsPN[vtPn].them(themKhac);
 
-                        dsPN[vtPn].taoNCC(nhaSX, dsNCC);
-
+                        NhaCungCap ncc7=dsPN[vtPn].taoNCC(nhaSX, dsNCC);
+                        dsPN[vtPn].getChiTiet().setNhaCC(ncc7);
                         break;
 
                 }
