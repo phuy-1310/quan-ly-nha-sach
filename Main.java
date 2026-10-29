@@ -98,7 +98,7 @@ public class Main {
                 case 7: kho.xuat(); break;
                 case 8: dspn.docFile(hoiFile("phieunhap/phieunhap_input.txt")); break;
                 case 9: dspn.ghiFile(hoiFile("phieunhap/phieunhap_output.txt")); break;
-                case 10: dspn.xuatDsNCC();
+                case 10: dspn.getDanhSachNCC().xuat();
                 case 0: break;
                 default: System.out.println("Lựa chọn không hợp lệ!");
             }
