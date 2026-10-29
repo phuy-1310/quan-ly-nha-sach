@@ -350,7 +350,4 @@ public void docFile(String duongDan){
     public DanhSachNCC getDanhSachNCC(){
         return dsNCC;
     }
-    public void xuatDsNCC(){
-        dsNCC.xuat();
-    }
 }
